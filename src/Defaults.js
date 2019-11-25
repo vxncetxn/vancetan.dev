@@ -48,18 +48,27 @@ const Defaults = createGlobalStyle`
 
     .link {
       position: relative;
+    //   border: 1px solid red;
     }
 
     .link-underline-svg {
       position: absolute;
       top: 22px;
       left: -2px;
+
+      @media (max-width: 1220px) {
+        top: 19px;
+      }
+      
+      @media (max-width: 860px) {
+        top: 16px;
+      }
     }
 
     .link-underline-path {
       fill: transparent;
       stroke: var(--color-background);
-      stroke-width: 5;
+      stroke-width: 7;
       stroke-linecap: round;
     }
 
@@ -70,20 +79,32 @@ const Defaults = createGlobalStyle`
     }
 
     .link-circle-path {
+      display: none;
       fill: transparent;
       stroke: var(--color-background);
-      stroke-width: 15;
+      stroke-width: 17;
       stroke-linecap: round;
       stroke-miterlimit: 10;
     }
 
-    .link-circle-path:hover {
+    .link:hover .link-circle-path {
+      display: block;
       animation: circle-link 0.4s ease-out forwards;
     }
 
     @keyframes circle-link {
       to {
         stroke-dashoffset: 0;
+      }
+    }
+
+    @keyframes move-up {
+      0% {
+        opacity: 0;
+      }
+
+      100% {
+        opacity: 1;
       }
     }
 `;

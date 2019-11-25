@@ -2,13 +2,14 @@ import React, { useEffect } from "react";
 
 import Defaults from "../Defaults";
 import Main from "../sections/Main";
+import FixedTools from "../sections/FixedTools";
 
 export default () => {
   const randomWithinRange = (minBound, maxBound) => {
     return Math.random() * (maxBound - minBound);
   };
 
-  const randomizePath = linkWidth => {
+  const randomizeUnderlinePath = linkWidth => {
     let yMin = 5;
     let yMax = 12;
 
@@ -38,7 +39,7 @@ export default () => {
     underline.setAttribute("class", "link-underline-svg");
 
     const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-    var pathD = randomizePath(linkWidth);
+    var pathD = randomizeUnderlinePath(linkWidth);
 
     path.setAttribute("class", "link-underline-path");
     path.setAttribute("d", pathD);
@@ -53,21 +54,21 @@ export default () => {
       "http://www.w3.org/2000/svg",
       "svg"
     );
-    circle.setAttribute("width", linkWidth + 20);
+    circle.setAttribute("width", linkWidth + 25);
     circle.setAttribute("height", linkHeight + 20);
     circle.setAttribute("viewBox", "0 0 312.98 123.79");
     circle.setAttribute("preserveAspectRatio", "none");
     circle.setAttribute("class", "link-circle-svg");
 
     const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+
     var pathD = `
-        M449.78,395.65
-        a530.08,530.08,0,0,0-165.93-18.19
-        c-6.34.32-138,7.57-140.69,35.75-2.18,22.6,79,53.46,152.43,58.17,43.71,2.81,
-        129-.81,136.8-33.15,7.71-31.92-64.33-74.36-75-80.54
+        m311.69 42.32
+        a530.14 530.14 0 0 0 -165.94-18.2
+        c-6.34.32-138 7.57-140.69 35.75-2.18 22.6 79.05 53.46 152.43 58.13 43.71 2.81
+        129-.81 136.81-33.15 7.7-31.85-64.3-74.32-75.02-80.5
     `;
 
-    path.setAttribute("transform", "translate(-138.12 -353.36)");
     path.setAttribute("class", "link-circle-path");
     path.setAttribute("d", pathD);
 
@@ -96,6 +97,7 @@ export default () => {
     <>
       <Defaults />
       <Main />
+      <FixedTools />
     </>
   );
 };

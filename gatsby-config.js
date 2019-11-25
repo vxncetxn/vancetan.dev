@@ -11,13 +11,21 @@ module.exports = {
         fonts: [`open sans\:400,600`, `oswald\:400,600`],
         display: "swap"
       }
-    }
+    },
     // {
     //   resolve: `gatsby-source-filesystem`,
     //   options: {
-    //     name: `images`,
-    //     path: `static/photos`
+    //     name: `icons`,
+    //     path: `static/icons`
     //   }
-    // }
+    // },
+    {
+      resolve: "gatsby-plugin-react-svg",
+      options: {
+        rule: {
+          include: /assets/
+        }
+      }
+    }
   ]
 };
