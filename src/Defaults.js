@@ -25,6 +25,10 @@ const Defaults = createGlobalStyle`
     body {
       position: relative;
       background-color: var(--color-background);
+
+      @media (max-width: 768px) {
+        // background-color: blue;
+      }
     }
 
     ul {
@@ -70,6 +74,14 @@ const Defaults = createGlobalStyle`
       stroke: var(--color-background);
       stroke-width: 7;
       stroke-linecap: round;
+
+      @media (max-width: 1220px) {
+        stroke-width: 6;
+      }
+      
+      @media (max-width: 860px) {
+        stroke-width: 5;
+      }
     }
 
     .link-circle-svg {
@@ -85,6 +97,14 @@ const Defaults = createGlobalStyle`
       stroke-width: 17;
       stroke-linecap: round;
       stroke-miterlimit: 10;
+
+      @media (max-width: 1220px) {
+        stroke-width: 15;
+      }
+      
+      @media (max-width: 860px) {
+        stroke-width: 13;
+      }
     }
 
     .link:hover .link-circle-path {

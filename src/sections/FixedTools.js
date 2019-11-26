@@ -5,6 +5,7 @@ import Github from "../assets/icons/socials/github.svg";
 import Linkedin from "../assets/icons/socials/linkedin.svg";
 import Twitter from "../assets/icons/socials/twitter.svg";
 import Email from "../assets/icons/socials/email.svg";
+import Music from "../assets/icons/misc/music.svg";
 
 const StyledNav = styled.nav`
   position: fixed;
@@ -111,9 +112,11 @@ const TopAside = styled(StyledAside)`
 `;
 
 const LeftAside = styled(StyledAside)`
-  writing-mode: sideways-lr;
   left: 30px;
   top: 90px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
   @media (max-width: 1220px) {
     font-size: 14px;
@@ -138,6 +141,10 @@ const CornerButton = styled.button`
   position: fixed;
   border: 1px solid var(--color-text);
 
+  @media (max-width: 860px) {
+    font-size: 16px;
+  }
+
   @media (max-width: 530px) {
     display: none;
   }
@@ -149,19 +156,19 @@ const BottomRightButton = styled(CornerButton)`
   padding: 0 5px;
 
   @media (max-width: 860px) {
-    right: 20px;
-    bottom: 15px;
+    right: 21px;
+    bottom: 16px;
   }
 `;
 
 const TopLeftButton = styled(CornerButton)`
-  left: 35px;
-  top: 25px;
+  left: 33px;
+  top: 27px;
   padding: 0 5px;
 
   @media (max-width: 860px) {
-    left: 20px;
-    top: 15px;
+    left: 21px;
+    top: 17px;
   }
 `;
 
@@ -196,6 +203,17 @@ const PopoverChild = styled.li`
   @media (max-width: 860px) {
     width: 30px;
     height: 30px;
+  }
+`;
+
+const StyledMusic = styled(Music)`
+  width: 25px;
+  fill: var(--color-text);
+  margin-top: 20px;
+
+  @media (max-width: 860px) {
+    width: 20px;
+    margin-top: 10px;
   }
 `;
 
@@ -260,7 +278,15 @@ const FixedTools = () => {
       <TopAside>
         Recently wrote <span className="link">"How to optimize the..."</span>
       </TopAside>
-      <LeftAside>Some placehholder text here</LeftAside>
+      <LeftAside>
+        <div
+          style={{
+            height: "200px",
+            borderRight: "5px solid var(--color-text)"
+          }}
+        />
+        <StyledMusic />
+      </LeftAside>
       <BottomRightButton>t</BottomRightButton>
       <TopLeftButton>v</TopLeftButton>
     </>

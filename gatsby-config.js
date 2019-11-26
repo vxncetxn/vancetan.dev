@@ -1,5 +1,6 @@
 module.exports = {
   plugins: [
+    `gatsby-plugin-preact`,
     `gatsby-plugin-react-helmet`,
     `gatsby-plugin-styled-components`,
     `gatsby-image`,
@@ -8,7 +9,7 @@ module.exports = {
     {
       resolve: `gatsby-plugin-google-fonts`,
       options: {
-        fonts: [`open sans\:400,600`, `oswald\:400,600`],
+        fonts: [`oswald\:400,600`, `open sans\:400,600`],
         display: "swap"
       }
     },
@@ -26,6 +27,7 @@ module.exports = {
           include: /assets/
         }
       }
-    }
+    },
+    "gatsby-plugin-webpack-bundle-analyser-v2"
   ]
 };
