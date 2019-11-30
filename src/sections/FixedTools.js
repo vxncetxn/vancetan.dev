@@ -29,21 +29,7 @@ const StyledNav = styled.nav`
     margin-top: 20px;
   }
 
-  @media (max-width: 1220px) {
-    font-size: 14px;
-  }
-
-  @media (max-width: 860px) {
-    font-size: 12px;
-    right: 20px;
-    bottom: 80px;
-
-    & > ul > li + li {
-      margin-top: 15px;
-    }
-  }
-
-  @media (max-width: 530px) {
+  @media (max-width: 833px) {
     display: none;
   }
 `;
@@ -66,15 +52,7 @@ const StyledAside = styled.aside`
     stroke: var(--color-text);
   }
 
-  @media (max-width: 1220px) {
-    font-size: 14px;
-  }
-
-  @media (max-width: 860px) {
-    font-size: 12px;
-  }
-
-  @media (max-width: 530px) {
+  @media (max-width: 833px) {
     display: none;
   }
 `;
@@ -87,15 +65,6 @@ const BottomAside = styled(StyledAside)`
     margin-left: 20px;
   }
 
-  @media (max-width: 860px) {
-    right: 70px;
-    bottom: 20px;
-
-    & > ul > li + li {
-      margin-left: 15px;
-    }
-  }
-
   & > ul > li:hover > ul {
     display: flex;
   }
@@ -104,11 +73,6 @@ const BottomAside = styled(StyledAside)`
 const TopAside = styled(StyledAside)`
   left: 90px;
   top: 30px;
-
-  @media (max-width: 860px) {
-    left: 70px;
-    top: 20px;
-  }
 `;
 
 const LeftAside = styled(StyledAside)`
@@ -117,20 +81,6 @@ const LeftAside = styled(StyledAside)`
   display: flex;
   flex-direction: column;
   align-items: center;
-
-  @media (max-width: 1220px) {
-    font-size: 14px;
-  }
-
-  @media (max-width: 860px) {
-    font-size: 12px;
-    left: 20px;
-    top: 80px;
-
-    & > ul > li + li {
-      margin-top: 15px;
-    }
-  }
 `;
 
 const CornerButton = styled.button`
@@ -141,11 +91,7 @@ const CornerButton = styled.button`
   position: fixed;
   border: 1px solid var(--color-text);
 
-  @media (max-width: 860px) {
-    font-size: 16px;
-  }
-
-  @media (max-width: 530px) {
+  @media (max-width: 833px) {
     display: none;
   }
 `;
@@ -154,22 +100,12 @@ const BottomRightButton = styled(CornerButton)`
   right: 35px;
   bottom: 25px;
   padding: 0 5px;
-
-  @media (max-width: 860px) {
-    right: 21px;
-    bottom: 16px;
-  }
 `;
 
 const TopLeftButton = styled(CornerButton)`
   left: 33px;
   top: 27px;
   padding: 0 5px;
-
-  @media (max-width: 860px) {
-    left: 21px;
-    top: 17px;
-  }
 `;
 
 const Popover = styled.ul`
@@ -186,10 +122,6 @@ const Popover = styled.ul`
   & > * + * {
     margin-bottom: 20px;
   }
-
-  @media (max-width: 860px) {
-    top: ${props => `-${props.numChildren * 50}px`};
-  }
 `;
 
 const PopoverChild = styled.li`
@@ -199,22 +131,12 @@ const PopoverChild = styled.li`
   opacity: 0;
   animation: move-up 0.2s ease-out forwards;
   animation-delay: ${props => `${props.itemKey * 0.2}s`};
-
-  @media (max-width: 860px) {
-    width: 30px;
-    height: 30px;
-  }
 `;
 
 const StyledMusic = styled(Music)`
   width: 25px;
   fill: var(--color-text);
   margin-top: 20px;
-
-  @media (max-width: 860px) {
-    width: 20px;
-    margin-top: 10px;
-  }
 `;
 
 const FixedTools = () => {
@@ -231,7 +153,7 @@ const FixedTools = () => {
       <BottomAside>
         <ul>
           <li className="link">Theme</li>
-          <li className="link">Perspective</li>
+          {/* <li className="link">Perspective</li> */}
           <li className="link">
             Socials
             <Popover numChildren={4}>

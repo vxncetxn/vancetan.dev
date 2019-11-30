@@ -91,6 +91,12 @@ export default () => {
       link.appendChild(underline);
       link.appendChild(circle);
     });
+
+    // window.addEventListener("resize", function() {
+    //   console.log("YAY!");
+    //   if (window.innerWidth < 1220) {
+    //   }
+    // });
   }, []);
 
   return (

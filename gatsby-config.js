@@ -13,13 +13,13 @@ module.exports = {
         display: "swap"
       }
     },
-    // {
-    //   resolve: `gatsby-source-filesystem`,
-    //   options: {
-    //     name: `icons`,
-    //     path: `static/icons`
-    //   }
-    // },
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        name: `images`,
+        path: `src/assets/images`
+      }
+    },
     {
       resolve: "gatsby-plugin-react-svg",
       options: {
