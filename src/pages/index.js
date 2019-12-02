@@ -1,10 +1,41 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import styled from "styled-components";
+import { window } from "browser-monads";
+import Div100vh from "react-div-100vh";
 
 import Defaults from "../Defaults";
-import Main from "../sections/Main";
 import FixedTools from "../sections/FixedTools";
+import Main from "../sections/Main";
+import BottomBase from "../sections/BottomBase";
+import Projects from "../sections/Projects";
+import Writings from "../sections/Writings";
+import Contact from "../sections/Contact";
+import SectionContext from "../SectionContext";
+
+const StyledIndex = styled(Div100vh)`
+  // overflow-y: hidden;
+  // transform: translateY(-100vh);
+  transition: transform 0.5s linear;
+`;
 
 export default () => {
+  const [isPortrait, setIsPortrait] = useState(
+    window.matchMedia("(orientation: portrait)").matches
+  );
+
+  const [section, setSection] = useState(
+    window.location.pathname.slice(1)
+      ? window.location.pathname.slice(1)
+      : "main"
+  );
+
+  useEffect(() => {
+    if (window.location.pathname.slice(1)) {
+      document.querySelector("#bottom-base").style.display = "block";
+      document.querySelector("#index").style.transform = "translateY(-100vh)";
+    }
+  }, []);
+
   const randomWithinRange = (minBound, maxBound) => {
     return Math.random() * (maxBound - minBound);
   };
@@ -91,19 +122,101 @@ export default () => {
       link.appendChild(underline);
       link.appendChild(circle);
     });
-
-    // window.addEventListener("resize", function() {
-    //   console.log("YAY!");
-    //   if (window.innerWidth < 1220) {
-    //   }
-    // });
   }, []);
+
+  const resizeMainVisual = () => {
+    const brainwave = document.querySelector(".brainwave");
+    const mainTextBlockHeight = document.querySelector(".main-text-block")
+      .offsetHeight;
+    const headImageContainer = document.querySelector(".head-image-container");
+    const bottomImageContainer = document.querySelector(
+      ".bottom-image-container"
+    );
+
+    brainwave.style.height = `${(mainTextBlockHeight / 5) * 9}px`;
+
+    let headImageContainerHeight;
+    let headImageContainerWidth;
+    if (window.innerWidth > 550) {
+      headImageContainerHeight = Math.max(
+        window.innerHeight - mainTextBlockHeight - 60,
+        250
+      );
+    } else {
+      headImageContainerHeight = Math.max(
+        window.innerHeight - mainTextBlockHeight - 100,
+        150
+      );
+    }
+
+    if (window.matchMedia("(orientation: portrait)").matches) {
+      headImageContainerWidth = headImageContainerHeight * 0.83415;
+    } else {
+      headImageContainerWidth = headImageContainerHeight * 1.19882;
+    }
+
+    headImageContainer.style.height = `${headImageContainerHeight}px`;
+    headImageContainer.style.width = `${headImageContainerWidth}px`;
+
+    let bottomImageContainerWidth = headImageContainerWidth;
+    let bottomImageContainerHeight;
+
+    if (window.matchMedia("(orientation: portrait)").matches) {
+      bottomImageContainerHeight = bottomImageContainerWidth / 1.19601;
+    } else {
+      bottomImageContainerHeight = bottomImageContainerWidth / 1.71429;
+    }
+
+    bottomImageContainer.style.height = `${bottomImageContainerHeight}px`;
+    bottomImageContainer.style.width = `${bottomImageContainerWidth}px`;
+  };
+
+  const onWindowResize = () => {
+    if (isPortrait) {
+      if (window.matchMedia("(orientation: landscape)").matches) {
+        setIsPortrait(!isPortrait);
+      }
+    } else {
+      if (window.matchMedia("(orientation: portrait)").matches) {
+        setIsPortrait(!isPortrait);
+      }
+    }
+
+    resizeMainVisual();
+  };
+
+  useEffect(() => {
+    resizeMainVisual();
+
+    window.addEventListener("resize", onWindowResize);
+
+    return () => {
+      window.removeEventListener("resize", onWindowResize);
+    };
+  }, [isPortrait]);
 
   return (
     <>
-      <Defaults />
-      <Main />
-      <FixedTools />
+      <SectionContext.Provider
+        value={{
+          section,
+          setSection
+        }}
+      >
+        <Defaults />
+        <FixedTools />
+        <StyledIndex id="index">
+          <Main isPortrait={isPortrait} />
+          <BottomBase isPortrait={isPortrait} />
+          {section === "projects" ? (
+            <Projects />
+          ) : section === "writings" ? (
+            <Writings />
+          ) : (
+            <Contact />
+          )}
+        </StyledIndex>
+      </SectionContext.Provider>
     </>
   );
 };

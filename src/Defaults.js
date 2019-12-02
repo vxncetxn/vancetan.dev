@@ -2,7 +2,7 @@ import { createGlobalStyle } from "styled-components";
 
 const Defaults = createGlobalStyle`
     :root {
-      --font-primary: "Open Sans";
+      --font-primary: "Roboto Mono";
       --font-secondary: "Oswald";
     
       --color-layer-top: #621055;

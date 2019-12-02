@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
+import TransitButton from "../TransitButton";
 import Github from "../assets/icons/socials/github.svg";
 import Linkedin from "../assets/icons/socials/linkedin.svg";
 import Twitter from "../assets/icons/socials/twitter.svg";
@@ -9,16 +10,20 @@ import Music from "../assets/icons/misc/music.svg";
 
 const StyledNav = styled.nav`
   position: fixed;
-  font-family: var(--font-secondary);
-  font-weight: 600;
-  font-size: 16px;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  color: var(--color-text);
+  z-index: 999;
 
   writing-mode: vertical-lr;
   right: 30px;
   bottom: 90px;
+
+  & button {
+    font-family: var(--font-secondary);
+    font-weight: 600;
+    font-size: 16px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--color-text);
+  }
 
   & > ul {
     display: flex;
@@ -42,6 +47,7 @@ const StyledAside = styled.aside`
   text-transform: uppercase;
   letter-spacing: 2px;
   color: var(--color-text);
+  z-index: 999;
 
   & > ul {
     display: flex;
@@ -90,6 +96,7 @@ const CornerButton = styled.button`
   color: var(--color-text);
   position: fixed;
   border: 1px solid var(--color-text);
+  z-index: 999;
 
   @media (max-width: 833px) {
     display: none;
@@ -144,10 +151,18 @@ const FixedTools = () => {
     <>
       <StyledNav>
         <ul>
-          <li>Main</li>
-          <li>Work</li>
-          <li>Writings</li>
-          <li>Contact</li>
+          <li>
+            <TransitButton to="main">Main</TransitButton>
+          </li>
+          <li>
+            <TransitButton to="projects">Projects</TransitButton>
+          </li>
+          <li>
+            <TransitButton to="writings">Writings</TransitButton>
+          </li>
+          <li>
+            <TransitButton to="contact">Contact</TransitButton>
+          </li>
         </ul>
       </StyledNav>
       <BottomAside>

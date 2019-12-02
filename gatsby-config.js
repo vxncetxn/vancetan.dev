@@ -7,9 +7,19 @@ module.exports = {
     `gatsby-transformer-sharp`,
     `gatsby-plugin-sharp`,
     {
+      resolve: `gatsby-plugin-create-client-paths`,
+      options: { prefixes: [`/*`] }
+    },
+    {
       resolve: `gatsby-plugin-google-fonts`,
       options: {
-        fonts: [`oswald\:400,600`, `open sans\:400,600`],
+        fonts: [
+          `oswald\:400,600`,
+          `open sans\:400,600`,
+          `abel\:400`,
+          `work sans\:400,500`,
+          `roboto mono\:400,500`
+        ],
         display: "swap"
       }
     },

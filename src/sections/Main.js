@@ -1,14 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
-import { Link } from "gatsby";
 import { graphql, useStaticQuery } from "gatsby";
 import Img from "gatsby-image";
-import { window } from "browser-monads";
-import Div100vh from "react-div-100vh";
 
 import Brainwave from "../assets/graphics/brainwave-vA.svg";
+import TransitButton from "../TransitButton";
 
-const StyledMain = styled(Div100vh)`
+const StyledMain = styled.section`
   position: relative;
 `;
 
@@ -30,7 +28,7 @@ const MainTextBlock = styled.main`
     padding-top: 40px;
   }
 
-  @media (max-width: 480px) {
+  @media (max-width: 550px) {
     padding-top: 20px;
   }
 `;
@@ -46,7 +44,7 @@ const MainTitle = styled.h1`
     font-size: 52px;
   }
 
-  @media (max-width: 480px) {
+  @media (max-width: 550px) {
     margin-top: 0;
     font-size: 34px;
   }
@@ -68,7 +66,7 @@ const MainText = styled.p`
     font-size: 18px;
   }
 
-  @media (max-width: 480px) {
+  @media (max-width: 550px) {
     font-size: 14px;
   }
 
@@ -82,21 +80,18 @@ const HeadImgContainer = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 60px;
+  // border: 1px solid green;
 
   & > .gatsby-image-wrapper {
     width: 100%;
   }
 
-  @media (max-width: 480px) {
+  @media (max-width: 550px) {
     margin-top: 100px;
   }
 `;
 
-const Main = () => {
-  const [isPortrait, setIsPortrait] = useState(
-    window.matchMedia("(orientation: portrait)").matches
-  );
-
+const Main = ({ isPortrait }) => {
   const headImgLs = useStaticQuery(graphql`
     query {
       allFile {
@@ -114,78 +109,8 @@ const Main = () => {
     }
   `).allFile.edges;
 
-  const resizeMainVisual = () => {
-    const brainwave = document.querySelector(".brainwave");
-    const mainTextBlockHeight = document.querySelector(".main-text-block")
-      .offsetHeight;
-    const imageContainer = document.querySelector(".head-image-container");
-
-    brainwave.style.height = `${(mainTextBlockHeight / 5) * 10}px`;
-
-    let imageContainerHeight;
-    let imageContainerWidth;
-    if (window.innerWidth > 480) {
-      // imageContainerHeight = Math.min(
-      //   Math.max(window.innerHeight - mainTextBlockHeight - 60, 300),
-      //   window.innerHeight * (3 / 5)
-      // );
-
-      imageContainerHeight = Math.max(
-        window.innerHeight - mainTextBlockHeight - 60,
-        300
-      );
-
-      // imageContainerHeight = window.innerHeight - mainTextBlockHeight - 60;
-    } else {
-      // imageContainerHeight = Math.min(
-      //   Math.max(window.innerHeight - mainTextBlockHeight - 100, 300),
-      //   window.innerHeight * (3 / 5)
-      // );
-
-      imageContainerHeight = Math.max(
-        window.innerHeight - mainTextBlockHeight - 100,
-        150
-      );
-
-      // imageContainerHeight = window.innerHeight - mainTextBlockHeight - 100;
-    }
-
-    if (window.matchMedia("(orientation: portrait)").matches) {
-      imageContainerWidth = imageContainerHeight * 0.83415;
-    } else {
-      imageContainerWidth = imageContainerHeight * 1.19882;
-    }
-
-    imageContainer.style.height = `${imageContainerHeight}px`;
-    imageContainer.style.width = `${imageContainerWidth}px`;
-  };
-
-  const onWindowResize = () => {
-    if (isPortrait) {
-      if (window.matchMedia("(orientation: landscape)").matches) {
-        setIsPortrait(!isPortrait);
-      }
-    } else {
-      if (window.matchMedia("(orientation: portrait)").matches) {
-        setIsPortrait(!isPortrait);
-      }
-    }
-
-    resizeMainVisual();
-  };
-
-  useEffect(() => {
-    resizeMainVisual();
-
-    window.addEventListener("resize", onWindowResize);
-
-    return () => {
-      window.removeEventListener("resize", onWindowResize);
-    };
-  }, [isPortrait]);
-
   return (
-    <StyledMain as="section">
+    <StyledMain id="main">
       <StyledBrainwave className="brainwave" />
       <MainTextBlock className="main-text-block">
         <MainText>Hello, I am</MainText>
@@ -193,29 +118,21 @@ const Main = () => {
         <MainText style={{ marginTop: "15px" }}>
           As a creative software engineer, I dream big and bold, then try (my
           best) to build them. Check out my{" "}
-          <Link className="link" to="/">
-            work
-          </Link>
-          , read some of my{" "}
-          <Link className="link" to="/">
-            musings
-          </Link>{" "}
-          and of course, feel free to{" "}
-          <Link className="link" to="/">
-            speak
-          </Link>{" "}
-          with me.
+          <TransitButton to="projects">work</TransitButton>, read some of my{" "}
+          <TransitButton to="writings">musings</TransitButton> and of course,
+          feel free to <TransitButton to="contact">speak</TransitButton> with
+          me.
         </MainText>
       </MainTextBlock>
       <HeadImgContainer className="head-image-container">
         {isPortrait ? (
           <Img
-            fluid={headImgLs[1].node.childImageSharp.fluid}
+            fluid={headImgLs[3].node.childImageSharp.fluid}
             alt="Head photo of Vance Tan"
           />
         ) : (
           <Img
-            fluid={headImgLs[0].node.childImageSharp.fluid}
+            fluid={headImgLs[1].node.childImageSharp.fluid}
             alt="Head photo of Vance Tan"
           />
         )}
