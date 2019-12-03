@@ -6,12 +6,12 @@ import { window } from "browser-monads";
 
 const StyledTransitButton = styled.button``;
 
-const TransitButton = ({ children, to }) => {
+const TransitButton = ({ children, to, circled }) => {
   const { section, setSection } = useContext(SectionContext);
 
   return (
     <StyledTransitButton
-      className="link"
+      className={`link ${circled ? "circled" : null}`}
       onClick={() => {
         if (section !== to) {
           if (section === "main") {

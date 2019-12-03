@@ -30,6 +30,25 @@ export default () => {
   );
 
   useEffect(() => {
+    window.onpopstate = function() {
+      if (window.location.pathname.slice(1)) {
+        if (section === "main") {
+          setSection(window.location.pathname.slice(1));
+          document.querySelector("#bottom-base").style.display = "block";
+          document.querySelector("#index").style.transform =
+            "translateY(-100vh)";
+        } else {
+          setSection(window.location.pathname.slice(1));
+        }
+      } else {
+        document.querySelector("#index").style.transform = "translateY(0vh)";
+        setTimeout(() => {
+          document.querySelector("#bottom-base").style.display = "none";
+          setSection("main");
+        }, 500);
+      }
+    };
+
     if (window.location.pathname.slice(1)) {
       document.querySelector("#bottom-base").style.display = "block";
       document.querySelector("#index").style.transform = "translateY(-100vh)";

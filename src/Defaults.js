@@ -63,9 +63,13 @@ const Defaults = createGlobalStyle`
       @media (max-width: 1220px) {
         top: 19px;
       }
-      
-      @media (max-width: 860px) {
+    
+      @media (max-width: 550px) {
         top: 16px;
+      }
+    
+      @media (max-width: 375px) {
+        top: 13px;
       }
     }
 
@@ -78,9 +82,13 @@ const Defaults = createGlobalStyle`
       @media (max-width: 1220px) {
         stroke-width: 6;
       }
-      
-      @media (max-width: 860px) {
+    
+      @media (max-width: 550px) {
         stroke-width: 5;
+      }
+    
+      @media (max-width: 375px) {
+        stroke-width: 4;
       }
     }
 
@@ -101,15 +109,25 @@ const Defaults = createGlobalStyle`
       @media (max-width: 1220px) {
         stroke-width: 15;
       }
-      
-      @media (max-width: 860px) {
+    
+      @media (max-width: 550px) {
         stroke-width: 13;
+      }
+    
+      @media (max-width: 375px) {
+        stroke-width: 11;
       }
     }
 
     .link:hover .link-circle-path {
       display: block;
       animation: circle-link 0.4s ease-out forwards;
+    }
+
+    .link.circled .link-circle-path {
+      display: block;
+      stroke-dasharray: none;
+      stroke-dashoffset: 0;
     }
 
     @keyframes circle-link {

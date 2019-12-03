@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 
 import TransitButton from "../TransitButton";
@@ -7,14 +7,18 @@ import Linkedin from "../assets/icons/socials/linkedin.svg";
 import Twitter from "../assets/icons/socials/twitter.svg";
 import Email from "../assets/icons/socials/email.svg";
 import Music from "../assets/icons/misc/music.svg";
+import SectionContext from "../SectionContext";
 
 const StyledNav = styled.nav`
   position: fixed;
   z-index: 999;
+  // border: 1px solid red;
+  transform-origin: center right;
+  transform: rotate(90deg);
 
-  writing-mode: vertical-lr;
-  right: 30px;
-  bottom: 90px;
+  // writing-mode: vertical-lr;
+  right: 40px;
+  bottom: 80px;
 
   & button {
     font-family: var(--font-secondary);
@@ -27,11 +31,15 @@ const StyledNav = styled.nav`
 
   & > ul {
     display: flex;
-    justify-content: center;
+    // justify-content: center;
+  }
+
+  & path {
+    stroke: var(--color-text);
   }
 
   & > ul > li + li {
-    margin-top: 20px;
+    margin-left: 25px;
   }
 
   @media (max-width: 833px) {
@@ -68,7 +76,7 @@ const BottomAside = styled(StyledAside)`
   bottom: 30px;
 
   & > ul > li + li {
-    margin-left: 20px;
+    margin-left: 25px;
   }
 
   & > ul > li:hover > ul {
@@ -147,21 +155,43 @@ const StyledMusic = styled(Music)`
 `;
 
 const FixedTools = () => {
+  const sectionContext = useContext(SectionContext);
+
   return (
     <>
       <StyledNav>
         <ul>
           <li>
-            <TransitButton to="main">Main</TransitButton>
+            <TransitButton
+              to="main"
+              circled={sectionContext.section === "main"}
+            >
+              Main
+            </TransitButton>
           </li>
           <li>
-            <TransitButton to="projects">Projects</TransitButton>
+            <TransitButton
+              to="projects"
+              circled={sectionContext.section === "projects"}
+            >
+              Projects
+            </TransitButton>
           </li>
           <li>
-            <TransitButton to="writings">Writings</TransitButton>
+            <TransitButton
+              to="writings"
+              circled={sectionContext.section === "writings"}
+            >
+              Writings
+            </TransitButton>
           </li>
           <li>
-            <TransitButton to="contact">Contact</TransitButton>
+            <TransitButton
+              to="contact"
+              circled={sectionContext.section === "contact"}
+            >
+              Contact
+            </TransitButton>
           </li>
         </ul>
       </StyledNav>
@@ -172,7 +202,7 @@ const FixedTools = () => {
           <li className="link">
             Socials
             <Popover numChildren={4}>
-              <PopoverChild itemKey={1}>
+              <PopoverChild itemKey={0}>
                 <a
                   href="mailto:thevancetan@gmail.com"
                   target="_blank"
@@ -181,7 +211,7 @@ const FixedTools = () => {
                   <Email fill="var(--color-text)" />
                 </a>
               </PopoverChild>
-              <PopoverChild itemKey={2}>
+              <PopoverChild itemKey={1}>
                 <a
                   href="https://twitter.com/vxncetxn"
                   target="_blank"
@@ -190,7 +220,7 @@ const FixedTools = () => {
                   <Twitter fill="var(--color-text)" />
                 </a>
               </PopoverChild>
-              <PopoverChild itemKey={3}>
+              <PopoverChild itemKey={2}>
                 <a
                   href="https://www.linkedin.com/in/vance-tan-xr"
                   target="_blank"
@@ -199,7 +229,7 @@ const FixedTools = () => {
                   <Linkedin fill="var(--color-text)" />
                 </a>
               </PopoverChild>
-              <PopoverChild itemKey={4}>
+              <PopoverChild itemKey={3}>
                 <a
                   href="https://github.com/vxncetxn"
                   target="_blank"
