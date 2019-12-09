@@ -10,6 +10,7 @@ const StyledBottomBase = styled.div`
 `;
 
 const BottomImgContainer = styled.div`
+  width: 25vw;
   margin: 0 auto;
   display: flex;
   justify-content: center;
@@ -18,6 +19,22 @@ const BottomImgContainer = styled.div`
 
   & > .gatsby-image-wrapper {
     width: 100%;
+  }
+
+  @media (max-width: 1220px) {
+    width: 35vw;
+  }
+
+  @media (max-width: 833px) {
+    width: 45vw;
+  }
+
+  @media (max-width: 550px) {
+    width: 60vw;
+  }
+
+  @media (max-width: 375px) {
+    width: 80vw;
   }
 `;
 

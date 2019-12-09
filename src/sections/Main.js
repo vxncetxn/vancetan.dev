@@ -2,12 +2,17 @@ import React from "react";
 import styled from "styled-components";
 import { graphql, useStaticQuery } from "gatsby";
 import Img from "gatsby-image";
+import Div100vh from "react-div-100vh";
 
 import Brainwave from "../assets/graphics/brainwave-vA.svg";
 import TransitButton from "../TransitButton";
 
-const StyledMain = styled.section`
+const StyledMain = styled(Div100vh)`
   position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 const StyledBrainwave = styled(Brainwave)`
@@ -21,7 +26,6 @@ const StyledBrainwave = styled(Brainwave)`
 
 const MainTextBlock = styled.main`
   width: 45vw;
-  margin: 0 auto;
   padding-top: 80px;
 
   @media (max-width: 833px) {
@@ -76,19 +80,29 @@ const MainText = styled.p`
 `;
 
 const HeadImgContainer = styled.div`
-  width: 40vw;
-  margin: 0 auto;
+  width: 25vw;
   display: flex;
   justify-content: center;
-  margin-top: 60px;
   // border: 1px solid green;
 
   & > .gatsby-image-wrapper {
     width: 100%;
   }
 
+  @media (max-width: 1220px) {
+    width: 35vw;
+  }
+
+  @media (max-width: 833px) {
+    width: 45vw;
+  }
+
   @media (max-width: 550px) {
-    margin-top: 100px;
+    width: 60vw;
+  }
+
+  @media (max-width: 375px) {
+    width: 80vw;
   }
 `;
 

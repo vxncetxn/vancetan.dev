@@ -153,51 +153,61 @@ export default () => {
     });
   }, []);
 
-  const resizeMainVisual = () => {
-    const brainwave = document.querySelector(".brainwave");
-    const mainTextBlockHeight = document.querySelector(".main-text-block")
-      .offsetHeight;
-    const headImageContainer = document.querySelector(".head-image-container");
-    const bottomImageContainer = document.querySelector(
-      ".bottom-image-container"
-    );
+  // const resizeMainVisual = () => {
+  //   const brainwave = document.querySelector(".brainwave");
+  //   const mainTextBlockHeight = document.querySelector(".main-text-block")
+  //     .offsetHeight;
+  //   const headImageContainer = document.querySelector(".head-image-container");
+  //   const bottomImageContainer = document.querySelector(
+  //     ".bottom-image-container"
+  //   );
 
-    brainwave.style.height = `${(mainTextBlockHeight / 5) * 9}px`;
+  //   brainwave.style.height = `${(mainTextBlockHeight / 5) * 9}px`;
 
-    let headImageContainerHeight;
-    let headImageContainerWidth;
-    if (window.innerWidth > 550) {
-      headImageContainerHeight = Math.max(
-        window.innerHeight - mainTextBlockHeight - 60,
-        250
-      );
-    } else {
-      headImageContainerHeight = Math.max(
-        window.innerHeight - mainTextBlockHeight - 100,
-        150
-      );
+  //   let headImageContainerHeight;
+  //   let headImageContainerWidth;
+  //   if (window.innerWidth > 550) {
+  //     headImageContainerHeight = Math.max(
+  //       window.innerHeight - mainTextBlockHeight - 60,
+  //       250
+  //     );
+  //   } else {
+  //     headImageContainerHeight = Math.max(
+  //       window.innerHeight - mainTextBlockHeight - 100,
+  //       150
+  //     );
+  //   }
+
+  //   if (window.matchMedia("(orientation: portrait)").matches) {
+  //     headImageContainerWidth = headImageContainerHeight * 0.83415;
+  //   } else {
+  //     headImageContainerWidth = headImageContainerHeight * 1.19882;
+  //   }
+
+  //   headImageContainer.style.height = `${headImageContainerHeight}px`;
+  //   headImageContainer.style.width = `${headImageContainerWidth}px`;
+
+  //   let bottomImageContainerWidth = headImageContainerWidth;
+  //   let bottomImageContainerHeight;
+
+  //   if (window.matchMedia("(orientation: portrait)").matches) {
+  //     bottomImageContainerHeight = bottomImageContainerWidth / 1.19601;
+  //   } else {
+  //     bottomImageContainerHeight = bottomImageContainerWidth / 1.71429;
+  //   }
+
+  //   bottomImageContainer.style.height = `${bottomImageContainerHeight}px`;
+  //   bottomImageContainer.style.width = `${bottomImageContainerWidth}px`;
+  // };
+
+  const resizeMainVisualAlt = () => {
+    if (section === "main") {
+      const brainwave = document.querySelector(".brainwave");
+      const mainTextBlockHeight = document.querySelector(".main-text-block")
+        .offsetHeight;
+
+      brainwave.style.height = `${(mainTextBlockHeight / 5) * 9}px`;
     }
-
-    if (window.matchMedia("(orientation: portrait)").matches) {
-      headImageContainerWidth = headImageContainerHeight * 0.83415;
-    } else {
-      headImageContainerWidth = headImageContainerHeight * 1.19882;
-    }
-
-    headImageContainer.style.height = `${headImageContainerHeight}px`;
-    headImageContainer.style.width = `${headImageContainerWidth}px`;
-
-    let bottomImageContainerWidth = headImageContainerWidth;
-    let bottomImageContainerHeight;
-
-    if (window.matchMedia("(orientation: portrait)").matches) {
-      bottomImageContainerHeight = bottomImageContainerWidth / 1.19601;
-    } else {
-      bottomImageContainerHeight = bottomImageContainerWidth / 1.71429;
-    }
-
-    bottomImageContainer.style.height = `${bottomImageContainerHeight}px`;
-    bottomImageContainer.style.width = `${bottomImageContainerWidth}px`;
   };
 
   const onWindowResize = () => {
@@ -211,11 +221,11 @@ export default () => {
       }
     }
 
-    resizeMainVisual();
+    resizeMainVisualAlt();
   };
 
   useEffect(() => {
-    resizeMainVisual();
+    resizeMainVisualAlt();
 
     window.addEventListener("resize", onWindowResize);
 
