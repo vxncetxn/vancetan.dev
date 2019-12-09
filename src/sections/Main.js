@@ -76,6 +76,7 @@ const MainText = styled.p`
 `;
 
 const HeadImgContainer = styled.div`
+  width: 40vw;
   margin: 0 auto;
   display: flex;
   justify-content: center;

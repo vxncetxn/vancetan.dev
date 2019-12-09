@@ -15,7 +15,8 @@ import SectionContext from "../SectionContext";
 const StyledIndex = styled(Div100vh)`
   // overflow-y: hidden;
   // transform: translateY(-100vh);
-  transition: transform 0.5s linear;
+  // transition: transform 0.5s linear;
+  // border: 1px solid red;
 `;
 
 export default () => {
@@ -30,30 +31,39 @@ export default () => {
   );
 
   useEffect(() => {
+    if (window.location.pathname.slice(1)) {
+      document.querySelector("#bottom-base").style.display = "block";
+      document.querySelector(
+        "#index"
+      ).style.transform = `translate3d(0,-${window.innerHeight}px,0)`;
+    }
+    setTimeout(() => {
+      document.querySelector("#index").style.transition =
+        "transform 0.5s linear";
+    }, 100);
+  }, []);
+
+  useEffect(() => {
     window.onpopstate = function() {
       if (window.location.pathname.slice(1)) {
         if (section === "main") {
           setSection(window.location.pathname.slice(1));
           document.querySelector("#bottom-base").style.display = "block";
-          document.querySelector("#index").style.transform =
-            "translateY(-100vh)";
+          document.querySelector(
+            "#index"
+          ).style.transform = `translate3d(0,-${window.innerHeight}px,0)`;
         } else {
           setSection(window.location.pathname.slice(1));
         }
       } else {
-        document.querySelector("#index").style.transform = "translateY(0vh)";
+        document.querySelector("#index").style.transform = "translate3d(0,0,0)";
         setTimeout(() => {
           document.querySelector("#bottom-base").style.display = "none";
           setSection("main");
         }, 500);
       }
     };
-
-    if (window.location.pathname.slice(1)) {
-      document.querySelector("#bottom-base").style.display = "block";
-      document.querySelector("#index").style.transform = "translateY(-100vh)";
-    }
-  }, []);
+  }, [section]);
 
   const randomWithinRange = (minBound, maxBound) => {
     return Math.random() * (maxBound - minBound);
