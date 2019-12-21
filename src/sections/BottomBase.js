@@ -1,13 +1,7 @@
-import React, { useContext } from "react";
+import React from "react";
 import styled from "styled-components";
 import { graphql, useStaticQuery } from "gatsby";
 import Img from "gatsby-image";
-
-import SectionContext from "../SectionContext";
-
-const StyledBottomBase = styled.div`
-  display: none;
-`;
 
 const BottomImgContainer = styled.div`
   width: 25vw;
@@ -43,17 +37,16 @@ const BottomTitle = styled.h1`
   z-index: 1;
   font-family: var(--font-secondary);
   font-weight: 600;
-  font-size: ${props => (props.isPortrait ? "70px" : "100px")};
-  color: white;
+  font-size: ${props => (props.isPortrait ? "60px" : "100px")};
+  color: var(--color-text);
   text-transform: uppercase;
   //   border: 1px solid green;
   text-align: center;
-  margin-top: ${props => (props.isPortrait ? "-145px" : "-170px")};
+  margin-top: ${props => (props.isPortrait ? "-140px" : "-160px")};
+  transition: color 0.6s ease-out;
 `;
 
-const WorkMain = ({ isPortrait }) => {
-  const sectionContext = useContext(SectionContext);
-
+const WorkMain = ({ title, isPortrait }) => {
   const bottomImgLs = useStaticQuery(graphql`
     query {
       allFile {
@@ -72,7 +65,7 @@ const WorkMain = ({ isPortrait }) => {
   `).allFile.edges;
 
   return (
-    <StyledBottomBase id="bottom-base">
+    <>
       <BottomImgContainer className="bottom-image-container">
         {isPortrait ? (
           <Img
@@ -88,10 +81,8 @@ const WorkMain = ({ isPortrait }) => {
           />
         )}
       </BottomImgContainer>
-      <BottomTitle isPortrait={isPortrait}>
-        {sectionContext.section}
-      </BottomTitle>
-    </StyledBottomBase>
+      <BottomTitle isPortrait={isPortrait}>{title}</BottomTitle>
+    </>
   );
 };
 

@@ -2,7 +2,9 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { window } from "browser-monads";
 import Div100vh from "react-div-100vh";
+import { graphql, useStaticQuery } from "gatsby";
 
+import SectionContext from "../SectionContext";
 import Defaults from "../Defaults";
 import FixedTools from "../sections/FixedTools";
 import Main from "../sections/Main";
@@ -10,29 +12,120 @@ import BottomBase from "../sections/BottomBase";
 import Projects from "../sections/Projects";
 import Writings from "../sections/Writings";
 import Contact from "../sections/Contact";
-import SectionContext from "../SectionContext";
+import ProjectTemplate from "../sections/ProjectTemplate";
+import WritingTemplate from "../sections/WritingTemplate";
+import formatIndexNum from "../Helpers/formatIndexNum";
 
-const StyledIndex = styled(Div100vh)`
-  // overflow-y: hidden;
-  // transform: translateY(-100vh);
-  // transition: transform 0.5s linear;
-  // border: 1px solid red;
-`;
+const StyledIndex = styled(Div100vh)``;
 
 export default () => {
-  const [isPortrait, setIsPortrait] = useState(
-    window.matchMedia("(orientation: portrait)").matches
+  const content = useStaticQuery(graphql`
+    query {
+      allMdx {
+        edges {
+          node {
+            body
+            frontmatter {
+              type
+              path
+              index
+              title
+              tags
+              image
+              contributions
+              tech
+              source
+              demo
+            }
+          }
+        }
+      }
+    }
+  `).allMdx.edges;
+  const projectsContent = content.filter(
+    item => item.node.frontmatter.type === "projects"
   );
+  const writingsContent = content.filter(
+    item => item.node.frontmatter.type === "writings"
+  );
+
+  const projectsIndex = projectsContent
+    .sort((a, b) => a.node.frontmatter.index - b.node.frontmatter.index)
+    .map(item => {
+      return {
+        path: item.node.frontmatter.path,
+        title: item.node.frontmatter.title,
+        tags: item.node.frontmatter.tags
+      };
+    });
+
+  const projectsActual = projectsContent.map((item, idx) => {
+    return {
+      body: item.node.body,
+      path: item.node.frontmatter.path,
+      index: item.node.frontmatter.index,
+      title: item.node.frontmatter.title,
+      image: item.node.frontmatter.image,
+      contributions: item.node.frontmatter.contributions,
+      tech: item.node.frontmatter.tech,
+      source: item.node.frontmatter.source,
+      demo: item.node.frontmatter.demo,
+      previous:
+        idx !== 0 ? projectsContent[idx - 1].node.frontmatter.path : null,
+      next:
+        idx !== projectsContent.length - 1
+          ? projectsContent[idx + 1].node.frontmatter.path
+          : null
+    };
+  });
 
   const [section, setSection] = useState(
     window.location.pathname.slice(1)
       ? window.location.pathname.slice(1)
       : "main"
   );
+  const [theme, setTheme] = useState("nevada-sunset");
+  const [isPortrait, setIsPortrait] = useState(
+    window.matchMedia("(orientation: portrait)").matches
+  );
+  const [screenWidth, setScreenWidth] = useState(
+    window.matchMedia("(max-width: 375px)").matches
+      ? "mobile-very-narrow"
+      : window.matchMedia("(max-width: 550px)").matches
+      ? "mobile-narrow"
+      : window.matchMedia("(max-width: 833px)").matches
+      ? "mobile-wide"
+      : window.matchMedia("(max-width: 1200px)").matches
+      ? "desktop-narrow"
+      : "desktop-wide"
+  );
+
+  useEffect(() => {
+    if (localStorage.getItem("theme")) {
+      setTheme(localStorage.getItem("theme"));
+    }
+
+    window.addEventListener("resize", () => {
+      setScreenWidth(
+        window.matchMedia("(max-width: 375px)").matches
+          ? "mobile-very-narrow"
+          : window.matchMedia("(max-width: 550px)").matches
+          ? "mobile-narrow"
+          : window.matchMedia("(max-width: 833px)").matches
+          ? "mobile-wide"
+          : window.matchMedia("(max-width: 1200px)").matches
+          ? "desktop-narrow"
+          : "desktop-wide"
+      );
+    });
+  }, []);
+
+  useEffect(() => {
+    document.documentElement.setAttribute("theme", theme);
+  }, [theme]);
 
   useEffect(() => {
     if (window.location.pathname.slice(1)) {
-      document.querySelector("#bottom-base").style.display = "block";
       document.querySelector(
         "#index"
       ).style.transform = `translate3d(0,-${window.innerHeight}px,0)`;
@@ -48,7 +141,6 @@ export default () => {
       if (window.location.pathname.slice(1)) {
         if (section === "main") {
           setSection(window.location.pathname.slice(1));
-          document.querySelector("#bottom-base").style.display = "block";
           document.querySelector(
             "#index"
           ).style.transform = `translate3d(0,-${window.innerHeight}px,0)`;
@@ -58,7 +150,6 @@ export default () => {
       } else {
         document.querySelector("#index").style.transform = "translate3d(0,0,0)";
         setTimeout(() => {
-          document.querySelector("#bottom-base").style.display = "none";
           setSection("main");
         }, 500);
       }
@@ -70,16 +161,16 @@ export default () => {
   };
 
   const randomizeUnderlinePath = linkWidth => {
-    let yMin = 5;
-    let yMax = 12;
+    const yMin = 5;
+    const yMax = 12;
 
-    let qXMin = 5 + 0.3 * linkWidth;
-    let qXMax = linkWidth - 0.3 * linkWidth;
+    const qXMin = 5 + 0.3 * linkWidth;
+    const qXMax = linkWidth - 0.3 * linkWidth;
 
-    let qYMin = 15;
-    let qYMax = 25;
+    const qYMin = 15;
+    const qYMax = 25;
 
-    let pathD = `M5 ${randomWithinRange(yMin, yMax)} Q ${randomWithinRange(
+    const pathD = `M5 ${randomWithinRange(yMin, yMax)} Q ${randomWithinRange(
       qXMin,
       qXMax
     )} ${randomWithinRange(qYMin, qYMax)} ${linkWidth} ${randomWithinRange(
@@ -132,7 +223,7 @@ export default () => {
     path.setAttribute("class", "link-circle-path");
     path.setAttribute("d", pathD);
 
-    let pathLength = path.getTotalLength();
+    const pathLength = path.getTotalLength();
     path.setAttribute("stroke-dasharray", pathLength);
     path.setAttribute("stroke-dashoffset", pathLength);
 
@@ -143,64 +234,23 @@ export default () => {
 
   useEffect(() => {
     document.querySelectorAll(".link").forEach(link => {
-      let linkWidth = parseInt(link.offsetWidth);
-      let linkHeight = parseInt(link.offsetHeight);
+      const linkWidth = parseInt(link.offsetWidth);
+      const linkHeight = parseInt(link.offsetHeight);
 
-      let underline = createLinkUnderline(linkWidth);
-      let circle = createLinkCircle(linkWidth, linkHeight);
-      link.appendChild(underline);
-      link.appendChild(circle);
+      if (link.children.length) {
+        link.children[0].setAttribute("width", linkWidth);
+        link.children[1].setAttribute("width", linkWidth + 25);
+        link.children[1].setAttribute("height", linkHeight + 20);
+      } else {
+        const underline = createLinkUnderline(linkWidth);
+        const circle = createLinkCircle(linkWidth, linkHeight);
+        link.appendChild(underline);
+        link.appendChild(circle);
+      }
     });
-  }, []);
+  }, [section, screenWidth]);
 
-  // const resizeMainVisual = () => {
-  //   const brainwave = document.querySelector(".brainwave");
-  //   const mainTextBlockHeight = document.querySelector(".main-text-block")
-  //     .offsetHeight;
-  //   const headImageContainer = document.querySelector(".head-image-container");
-  //   const bottomImageContainer = document.querySelector(
-  //     ".bottom-image-container"
-  //   );
-
-  //   brainwave.style.height = `${(mainTextBlockHeight / 5) * 9}px`;
-
-  //   let headImageContainerHeight;
-  //   let headImageContainerWidth;
-  //   if (window.innerWidth > 550) {
-  //     headImageContainerHeight = Math.max(
-  //       window.innerHeight - mainTextBlockHeight - 60,
-  //       250
-  //     );
-  //   } else {
-  //     headImageContainerHeight = Math.max(
-  //       window.innerHeight - mainTextBlockHeight - 100,
-  //       150
-  //     );
-  //   }
-
-  //   if (window.matchMedia("(orientation: portrait)").matches) {
-  //     headImageContainerWidth = headImageContainerHeight * 0.83415;
-  //   } else {
-  //     headImageContainerWidth = headImageContainerHeight * 1.19882;
-  //   }
-
-  //   headImageContainer.style.height = `${headImageContainerHeight}px`;
-  //   headImageContainer.style.width = `${headImageContainerWidth}px`;
-
-  //   let bottomImageContainerWidth = headImageContainerWidth;
-  //   let bottomImageContainerHeight;
-
-  //   if (window.matchMedia("(orientation: portrait)").matches) {
-  //     bottomImageContainerHeight = bottomImageContainerWidth / 1.19601;
-  //   } else {
-  //     bottomImageContainerHeight = bottomImageContainerWidth / 1.71429;
-  //   }
-
-  //   bottomImageContainer.style.height = `${bottomImageContainerHeight}px`;
-  //   bottomImageContainer.style.width = `${bottomImageContainerWidth}px`;
-  // };
-
-  const resizeMainVisualAlt = () => {
+  const resizeMainVisual = () => {
     if (section === "main") {
       const brainwave = document.querySelector(".brainwave");
       const mainTextBlockHeight = document.querySelector(".main-text-block")
@@ -221,18 +271,60 @@ export default () => {
       }
     }
 
-    resizeMainVisualAlt();
+    resizeMainVisual();
   };
 
   useEffect(() => {
-    resizeMainVisualAlt();
+    resizeMainVisual();
 
     window.addEventListener("resize", onWindowResize);
 
     return () => {
       window.removeEventListener("resize", onWindowResize);
     };
-  }, [isPortrait]);
+  }, [isPortrait, section]);
+
+  const renderBottom = section => {
+    if (section === "main") {
+      return null;
+    } else if (section === "projects") {
+      return (
+        <>
+          <BottomBase title={"Projects"} isPortrait={isPortrait} />
+          <Projects projectsIndex={projectsIndex} />
+        </>
+      );
+    } else if (section === "writings") {
+      return (
+        <>
+          <BottomBase title={"Writings"} isPortrait={isPortrait} />
+          <Writings />
+        </>
+      );
+    } else if (section === "contact") {
+      return (
+        <>
+          <BottomBase title={"Contact"} isPortrait={isPortrait} />
+          <Contact />
+        </>
+      );
+    } else if (section.match(/projects\/[a-zA-Z0-9-]+$/g)) {
+      const project = projectsActual.filter(
+        project => project.path === section.slice(9)
+      )[0];
+      return (
+        <>
+          <BottomBase
+            title={`Project-${formatIndexNum(project.index)}`}
+            isPortrait={isPortrait}
+          />
+          <ProjectTemplate project={project} />
+        </>
+      );
+    } else if (section.match(/writings\/[a-zA-Z0-9-]+$/g)) {
+      return <WritingTemplate />;
+    }
+  };
 
   return (
     <>
@@ -243,17 +335,10 @@ export default () => {
         }}
       >
         <Defaults />
-        <FixedTools />
+        <FixedTools setTheme={setTheme} />
         <StyledIndex id="index">
           <Main isPortrait={isPortrait} />
-          <BottomBase isPortrait={isPortrait} />
-          {section === "projects" ? (
-            <Projects />
-          ) : section === "writings" ? (
-            <Writings />
-          ) : (
-            <Contact />
-          )}
+          {renderBottom(section)}
         </StyledIndex>
       </SectionContext.Provider>
     </>

@@ -10,6 +10,55 @@ const Defaults = createGlobalStyle`
       --color-layer-bottom: #d85a5a;
       --color-background: #d47e54;
       --color-text: #ffffff;
+      --color-layer-text: #ffffff;
+
+      // --color-layer-top: #233567;
+      // --color-layer-middle: #315b96;
+      // --color-layer-bottom: #fbc1bc;
+      // --color-background: #ffdfdf;
+      // --color-text: #ffffff;
+
+      // --color-layer-top: #c65364;
+      // --color-layer-middle: #88304e;
+      // --color-layer-bottom: #522546;
+      // --color-background: #311d3f;
+      // --color-text: #ffffff;
+
+      // --color-layer-top: #e46778;
+      // --color-layer-middle: #f2dac0;
+      // --color-layer-bottom: #928a97;
+      // --color-background: #283c63;
+      // --color-text: #ffffff;
+
+      // --color-layer-top: #cdac6a;
+      // --color-layer-middle: #9B814F;
+      // --color-layer-bottom: #4B4C51;
+      // --color-background: #303a52;
+      // --color-text: #ffffff;
+    }
+
+    [theme="dover-overcast"] {
+      --font-primary: "Roboto Mono";
+      --font-secondary: "Oswald";
+
+      --color-layer-top: #233567;
+      --color-layer-middle: #315b96;
+      --color-layer-bottom: #fbc1bc;
+      --color-background: #ffdfdf;
+      --color-text: #315b96;
+      --color-layer-text: #ffffff;
+    }
+
+    [theme="theme-three"] {
+      --font-primary: "Roboto Mono";
+      --font-secondary: "Oswald";
+      
+      --color-layer-top: #c65364;
+      --color-layer-middle: #88304e;
+      --color-layer-bottom: #522546;
+      --color-background: #311d3f;
+      --color-text: #ffffff;
+      --color-layer-text: #ffffff;
     }
 
     * {
@@ -25,6 +74,7 @@ const Defaults = createGlobalStyle`
     body {
       position: relative;
       background-color: var(--color-background);
+      transition: background-color 0.6s ease-out;
 
       @media (max-width: 768px) {
         // background-color: blue;
@@ -39,6 +89,8 @@ const Defaults = createGlobalStyle`
       font-family: inherit;
       font-size: inherit;
       font-weight: inherit;
+      text-transform: inherit;
+      letter-spacing: inherit;
       color: inherit;
       background-color: transparent;
       border: none;
@@ -58,7 +110,9 @@ const Defaults = createGlobalStyle`
     .link-underline-svg {
       position: absolute;
       top: 22px;
+      // top: 10px;
       left: -2px;
+      // z-index: -1;
 
       @media (max-width: 1220px) {
         top: 19px;
@@ -75,8 +129,9 @@ const Defaults = createGlobalStyle`
 
     .link-underline-path {
       fill: transparent;
-      stroke: var(--color-background);
+      stroke: var(--color-layer-top);
       stroke-width: 7;
+      // stroke-width: 15;
       stroke-linecap: round;
 
       @media (max-width: 1220px) {
@@ -101,7 +156,7 @@ const Defaults = createGlobalStyle`
     .link-circle-path {
       display: none;
       fill: transparent;
-      stroke: var(--color-background);
+      stroke: var(--color-layer-top);
       stroke-width: 17;
       stroke-linecap: round;
       stroke-miterlimit: 10;

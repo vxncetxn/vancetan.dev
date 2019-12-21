@@ -5,7 +5,7 @@ import Img from "gatsby-image";
 import Div100vh from "react-div-100vh";
 
 import Brainwave from "../assets/graphics/brainwave-vA.svg";
-import TransitButton from "../TransitButton";
+import InternalLink from "../InternalLink";
 
 const StyledMain = styled(Div100vh)`
   position: relative;
@@ -22,6 +22,10 @@ const StyledBrainwave = styled(Brainwave)`
   width: 100vw;
   height: 70vh;
   z-index: -1;
+
+  & > path {
+    transition: fill 0.6s ease-out;
+  }
 `;
 
 const MainTextBlock = styled.main`
@@ -43,6 +47,7 @@ const MainTitle = styled.h1`
   font-size: 5vw;
   color: var(--color-background);
   margin-top: -15px;
+  transition: color 0.6s ease-out;
 
   @media (max-width: 1220px) {
     font-size: 52px;
@@ -63,8 +68,9 @@ const MainText = styled.p`
   font-weight: 400;
   font-size: 20px;
   font-size: 1.5vw;
-  color: var(--color-text);
+  color: var(--color-layer-text);
   line-height: 1.6;
+  transition: color 0.6s ease-out;
 
   @media (max-width: 1220px) {
     font-size: 18px;
@@ -133,10 +139,9 @@ const Main = ({ isPortrait }) => {
         <MainText style={{ marginTop: "15px" }}>
           As a creative software engineer, I dream big and bold, then try (my
           best) to build them. Check out my{" "}
-          <TransitButton to="projects">work</TransitButton>, read some of my{" "}
-          <TransitButton to="writings">musings</TransitButton> and of course,
-          feel free to <TransitButton to="contact">speak</TransitButton> with
-          me.
+          <InternalLink to="projects">work</InternalLink>, read some of my{" "}
+          <InternalLink to="writings">musings</InternalLink> and of course, feel
+          free to <InternalLink to="contact">speak</InternalLink> with me.
         </MainText>
       </MainTextBlock>
       <HeadImgContainer className="head-image-container">

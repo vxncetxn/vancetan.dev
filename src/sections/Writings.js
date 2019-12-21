@@ -2,14 +2,10 @@ import React from "react";
 import styled from "styled-components";
 import { Link } from "gatsby";
 
-const StyledWritings = styled.section`
-  // display: none;
-`;
-
 const WritingsList = styled.ul`
   text-align: center;
-  width: 70%;
-  margin: 100px auto;
+  padding: 0 15%;
+  margin: 100px 0;
 
   & * + * {
     margin-top: 50px;
@@ -20,7 +16,8 @@ const WritingsList = styled.ul`
   }
 
   @media (max-width: 550px) {
-    padding: 0 20px;
+    text-align: left;
+    padding: 0 50px 0 20px;
   }
 `;
 
@@ -31,6 +28,7 @@ const WritingTitle = styled.h2`
   color: var(--color-text);
   text-transform: uppercase;
   position: relative;
+  transition: color 0.6s ease-out;
 
   & ::before {
     content: "${props => props.before}";
@@ -79,7 +77,7 @@ const StyledLink = styled(Link)`
 
 const WorkMain = () => {
   return (
-    <StyledWritings id="writings">
+    <>
       <WritingsList>
         <li>
           <WritingTitle before="01 / Personal">
@@ -109,7 +107,7 @@ const WorkMain = () => {
           </WritingTitle>
         </li>
       </WritingsList>
-    </StyledWritings>
+    </>
   );
 };
 

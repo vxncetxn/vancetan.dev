@@ -1,15 +1,13 @@
 import React from "react";
 import styled from "styled-components";
-import { Link } from "gatsby";
 
-const StyledProjects = styled.section`
-  // display: none;
-`;
+import TransitObject from "../TransitObject";
+import formatIndexNum from "../Helpers/formatIndexNum";
 
 const ProjectsList = styled.ul`
   text-align: center;
   padding: 0 15%;
-  margin: 100px auto;
+  margin: 100px 0;
 
   & * + * {
     margin-top: 50px;
@@ -20,7 +18,8 @@ const ProjectsList = styled.ul`
   }
 
   @media (max-width: 550px) {
-    padding: 0 20px;
+    text-align: left;
+    padding: 0 50px 0 20px;
   }
 `;
 
@@ -32,6 +31,7 @@ const ProjectTitle = styled.h2`
   text-transform: uppercase;
   position: relative;
   word-wrap: break-word;
+  transition: color 0.6s ease-out;
 
   & ::before {
     content: "${props => props.before}";
@@ -69,7 +69,7 @@ const ProjectTitle = styled.h2`
   }
 `;
 
-const StyledLink = styled(Link)`
+const StyledTransitObject = styled(TransitObject)`
   opacity: 0.7;
   cursor: pointer;
 
@@ -78,39 +78,28 @@ const StyledLink = styled(Link)`
   }
 `;
 
-const WorkMain = () => {
+const WorkMain = ({ projectsIndex }) => {
   return (
-    <StyledProjects id="projects">
+    <>
       <ProjectsList>
-        <li>
-          <ProjectTitle before="01 / Personal">
-            <StyledLink to="/">Photojournals.dev</StyledLink>
-          </ProjectTitle>
-        </li>
-        <li>
-          <ProjectTitle before="02 / Work">
-            <StyledLink to="/">SUTD Ring</StyledLink>
-          </ProjectTitle>
-        </li>
-        <li>
-          <ProjectTitle before="03 / Work">
-            <StyledLink to="/">What The Hack 2020</StyledLink>
-          </ProjectTitle>
-        </li>
-        <li>
-          <ProjectTitle before="04 / School">
-            <StyledLink to="/">ACNAPI Project</StyledLink>
-          </ProjectTitle>
-        </li>
-        <li>
-          <ProjectTitle before="05 / School">
-            <StyledLink to="/">
-              Visualisation of Shakespeare's Tragedies
-            </StyledLink>
-          </ProjectTitle>
-        </li>
+        {projectsIndex.map((proj, idx) => {
+          return (
+            <li>
+              <ProjectTitle
+                before={`${formatIndexNum(idx + 1)} / ${proj.tags}`}
+              >
+                <StyledTransitObject
+                  style={{ border: "1px solid red" }}
+                  to={`projects/${proj.path}`}
+                >
+                  {proj.title}
+                </StyledTransitObject>
+              </ProjectTitle>
+            </li>
+          );
+        })}
       </ProjectsList>
-    </StyledProjects>
+    </>
   );
 };
 

@@ -6,6 +6,7 @@ module.exports = {
     `gatsby-image`,
     `gatsby-transformer-sharp`,
     `gatsby-plugin-sharp`,
+    `gatsby-plugin-mdx`,
     {
       resolve: `gatsby-plugin-create-client-paths`,
       options: { prefixes: [`/*`] }
@@ -13,13 +14,7 @@ module.exports = {
     {
       resolve: `gatsby-plugin-google-fonts`,
       options: {
-        fonts: [
-          `oswald\:400,600`,
-          `open sans\:400,600`,
-          `abel\:400`,
-          `work sans\:400,500`,
-          `roboto mono\:400,500`
-        ],
+        fonts: [`oswald\:400,600`, `roboto mono\:400,500`],
         display: "swap"
       }
     },
@@ -28,6 +23,27 @@ module.exports = {
       options: {
         name: `images`,
         path: `src/assets/images`
+      }
+    },
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        name: `projects`,
+        path: `src/content/projects`
+      }
+    },
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        name: `writings`,
+        path: `src/content/writings`
+      }
+    },
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        name: `project-images`,
+        path: `src/assets/project-images`
       }
     },
     {

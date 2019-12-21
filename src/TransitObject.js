@@ -4,20 +4,33 @@ import SectionContext from "./SectionContext";
 
 import { window } from "browser-monads";
 
-const StyledTransitButton = styled.button``;
+const TransitCore = styled.span`
+  ${props =>
+    props.disabled
+      ? `
+    cursor: not-allowed;
+    opacity: 0.6;
+    text-decoration: line-through;
+  `
+      : `
+    cursor: pointer;
+  `}
+`;
 
-const TransitButton = ({ children, to, circled }) => {
+const TransitObject = ({ children, to, className, disabled }) => {
   const { section, setSection } = useContext(SectionContext);
 
   return (
-    <StyledTransitButton
-      className={`link ${circled ? "circled" : null}`}
+    <TransitCore
+      role="button"
+      tabIndex="0"
+      className={className}
+      disabled={disabled}
       onClick={() => {
-        if (section !== to) {
+        if (!disabled && section !== to) {
           if (section === "main") {
             setSection(to);
             window.history.pushState("", "", `/${to}`);
-            document.querySelector("#bottom-base").style.display = "block";
             document.querySelector(
               "#index"
             ).style.transform = `translate3d(0,-${window.innerHeight}px,0)`;
@@ -27,7 +40,6 @@ const TransitButton = ({ children, to, circled }) => {
             document.querySelector("#index").style.transform =
               "translate3d(0,0,0)";
             setTimeout(() => {
-              document.querySelector("#bottom-base").style.display = "none";
               setSection("main");
             }, 500);
           } else {
@@ -38,8 +50,8 @@ const TransitButton = ({ children, to, circled }) => {
       }}
     >
       {children}
-    </StyledTransitButton>
+    </TransitCore>
   );
 };
 
-export default TransitButton;
+export default TransitObject;

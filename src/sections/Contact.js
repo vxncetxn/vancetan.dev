@@ -6,7 +6,7 @@ const StyledContact = styled.section`
 `;
 
 const WorkMain = () => {
-  return <StyledContact id="contact"></StyledContact>;
+  return <StyledContact></StyledContact>;
 };
 
 export default WorkMain;

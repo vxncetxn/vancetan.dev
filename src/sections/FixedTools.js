@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
 
-import TransitButton from "../TransitButton";
+import InternalLink from "../InternalLink";
 import Github from "../assets/icons/socials/github.svg";
 import Linkedin from "../assets/icons/socials/linkedin.svg";
 import Twitter from "../assets/icons/socials/twitter.svg";
@@ -9,254 +9,277 @@ import Email from "../assets/icons/socials/email.svg";
 import Music from "../assets/icons/misc/music.svg";
 import SectionContext from "../SectionContext";
 
-const StyledNav = styled.nav`
-  position: fixed;
-  z-index: 999;
-  // border: 1px solid red;
-  transform-origin: center right;
-  transform: rotate(90deg);
+const Popover = styled.ul`
+  display: none;
+  position: absolute;
+  height: 100%;
+  left: -220px;
+  bottom: 0;
+  flex-direction: column-reverse;
+  align-items: center;
 
-  // writing-mode: vertical-lr;
-  right: 40px;
-  bottom: 80px;
-
-  & button {
-    font-family: var(--font-secondary);
-    font-weight: 600;
-    font-size: 16px;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    color: var(--color-text);
-  }
-
-  & > ul {
-    display: flex;
-    // justify-content: center;
-  }
-
-  & path {
-    stroke: var(--color-text);
-  }
-
-  & > ul > li + li {
-    margin-left: 25px;
-  }
-
-  @media (max-width: 833px) {
-    display: none;
+  & > * {
+    margin-right: 20px;
   }
 `;
 
-const StyledAside = styled.aside`
-  position: fixed;
+const PopoverChild = styled.li`
+  position: relative;
+  height: 35px;
+  opacity: 0;
+  text-align: center;
+  animation: move-up 0.2s ease-out forwards;
+  animation-delay: ${props => `${props.itemKey * 0.2}s`};
+
+  & svg {
+    width: 35px;
+    height: 35px;
+  }
+`;
+
+const StyledNav = styled.nav`
   font-family: var(--font-secondary);
   font-weight: 600;
   font-size: 16px;
   text-transform: uppercase;
   letter-spacing: 2px;
   color: var(--color-text);
-  z-index: 999;
+  transition: color 0.6s ease-out;
 
-  & > ul {
-    display: flex;
-    justify-content: center;
-  }
-
-  & path {
-    stroke: var(--color-text);
-  }
-
-  @media (max-width: 833px) {
-    display: none;
-  }
-`;
-
-const BottomAside = styled(StyledAside)`
-  right: 90px;
-  bottom: 30px;
-
-  & > ul > li + li {
-    margin-left: 25px;
-  }
-
-  & > ul > li:hover > ul {
-    display: flex;
-  }
-`;
-
-const TopAside = styled(StyledAside)`
-  left: 90px;
-  top: 30px;
-`;
-
-const LeftAside = styled(StyledAside)`
-  left: 30px;
-  top: 90px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
-const CornerButton = styled.button`
-  font-family: var(--font-secondary);
-  font-weight: 600;
-  font-size: 20px;
-  color: var(--color-text);
   position: fixed;
-  border: 1px solid var(--color-text);
+  right: 0;
+  bottom: 0;
   z-index: 999;
 
   @media (max-width: 833px) {
-    display: none;
+    transform-origin: center right;
+    transform: rotate(90deg);
+    right: 40px;
+    bottom: 20px;
+  }
+
+  @media (max-width: 550px) {
+    font-size: 14px;
+    right: 30px;
+  }
+
+  @media (max-width: 375px) {
+    font-size: 12px;
   }
 `;
 
-const BottomRightButton = styled(CornerButton)`
-  right: 35px;
-  bottom: 25px;
-  padding: 0 5px;
-`;
-
-const TopLeftButton = styled(CornerButton)`
-  left: 33px;
-  top: 27px;
-  padding: 0 5px;
-`;
-
-const Popover = styled.ul`
-  display: none;
-  position: absolute;
-  left: 0;
-  top: ${props => `-${props.numChildren * 55}px`};
-  width: 100%;
-  padding-bottom: 20px;
-  flex-direction: column-reverse;
-  align-items: center;
-  //   border: 1px solid green;
+const Menubar = styled.ul`
+  display: flex;
+  padding: 0 50px 25px 0;
+  // border: 1px solid red;
 
   & > * + * {
-    margin-bottom: 20px;
+    margin-left: 30px;
+  }
+
+  @media (max-width: 833px) {
+    padding: 0;
+  }
+
+  @media (max-width: 550px) {
+    & > * + * {
+      margin-left: 20px;
+    }
   }
 `;
 
-const PopoverChild = styled.li`
+const MenuItem = styled.li`
   position: relative;
+  &:hover > ul {
+    display: flex;
+  }
+  cursor: pointer;
+`;
+
+const Others = styled.ul`
+  position: absolute;
+  right: 20px;
+  bottom: 70px;
+  display: flex;
+  writing-mode: vertical-lr;
+
+  & > * + * {
+    margin-top: 30px;
+  }
+
+  @media (max-width: 833px) {
+    display: none;
+  }
+`;
+
+const Temp = styled.div`
+  display: inline-block;
+  background-color: white;
   width: 35px;
   height: 35px;
-  opacity: 0;
-  animation: move-up 0.2s ease-out forwards;
-  animation-delay: ${props => `${props.itemKey * 0.2}s`};
+  border-radius: 50px;
 `;
 
-const StyledMusic = styled(Music)`
-  width: 25px;
-  fill: var(--color-text);
-  margin-top: 20px;
-`;
-
-const FixedTools = () => {
+const FixedTools = ({ setTheme }) => {
   const sectionContext = useContext(SectionContext);
 
+  const tempMethod = theme => {
+    localStorage.setItem("theme", theme);
+    setTheme(theme);
+  };
+
   return (
-    <>
-      <StyledNav>
-        <ul>
-          <li>
-            <TransitButton
-              to="main"
-              circled={sectionContext.section === "main"}
-            >
-              Main
-            </TransitButton>
-          </li>
-          <li>
-            <TransitButton
-              to="projects"
-              circled={sectionContext.section === "projects"}
-            >
-              Projects
-            </TransitButton>
-          </li>
-          <li>
-            <TransitButton
-              to="writings"
-              circled={sectionContext.section === "writings"}
-            >
-              Writings
-            </TransitButton>
-          </li>
-          <li>
-            <TransitButton
-              to="contact"
-              circled={sectionContext.section === "contact"}
-            >
-              Contact
-            </TransitButton>
-          </li>
-        </ul>
-      </StyledNav>
-      <BottomAside>
-        <ul>
-          <li className="link">Theme</li>
-          {/* <li className="link">Perspective</li> */}
-          <li className="link">
-            Socials
-            <Popover numChildren={4}>
-              <PopoverChild itemKey={0}>
-                <a
-                  href="mailto:thevancetan@gmail.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <Email fill="var(--color-text)" />
-                </a>
-              </PopoverChild>
-              <PopoverChild itemKey={1}>
-                <a
-                  href="https://twitter.com/vxncetxn"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <Twitter fill="var(--color-text)" />
-                </a>
-              </PopoverChild>
-              <PopoverChild itemKey={2}>
-                <a
-                  href="https://www.linkedin.com/in/vance-tan-xr"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <Linkedin fill="var(--color-text)" />
-                </a>
-              </PopoverChild>
-              <PopoverChild itemKey={3}>
-                <a
-                  href="https://github.com/vxncetxn"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <Github fill="var(--color-text)" />
-                </a>
-              </PopoverChild>
-            </Popover>
-          </li>
-        </ul>
-      </BottomAside>
-      <TopAside>
-        Recently wrote <span className="link">"How to optimize the..."</span>
-      </TopAside>
-      <LeftAside>
-        <div
-          style={{
-            height: "200px",
-            borderRight: "5px solid var(--color-text)"
-          }}
-        />
-        <StyledMusic />
-      </LeftAside>
-      <BottomRightButton>t</BottomRightButton>
-      <TopLeftButton>v</TopLeftButton>
-    </>
+    <StyledNav aria-label="Navigation menu">
+      <Menubar role="menubar" aria-label="Navigation menu">
+        <li role="none">
+          <InternalLink
+            role="menuitem"
+            tabIndex="0"
+            to="main"
+            circled={sectionContext.section === "main"}
+          >
+            Main
+          </InternalLink>
+        </li>
+        <li role="none">
+          <InternalLink
+            role="menuitem"
+            tabIndex="-1"
+            to="projects"
+            circled={sectionContext.section === "projects"}
+          >
+            Projects
+          </InternalLink>
+        </li>
+        <li role="none">
+          <InternalLink
+            role="menuitem"
+            tabIndex="-1"
+            to="writings"
+            circled={sectionContext.section === "writings"}
+          >
+            Writings
+          </InternalLink>
+        </li>
+        <li role="none">
+          <InternalLink
+            role="menuitem"
+            tabIndex="-1"
+            to="contact"
+            circled={sectionContext.section === "contact"}
+          >
+            Contact
+          </InternalLink>
+        </li>
+        <li role="none">
+          <Others>
+            <MenuItem role="none">
+              <button
+                role="menuitem"
+                aria-haspopup="true"
+                aria-expanded="false"
+                tabIndex="-1"
+              >
+                Themes
+              </button>
+              <Popover numChildren={4} role="menu" aria-label="themes">
+                <PopoverChild itemKey={0} role="none">
+                  <button role="menuitem" tabIndex="-1">
+                    <Temp
+                      style={{ backgroundColor: "red" }}
+                      onClick={() => {
+                        tempMethod("nevada-sunset");
+                      }}
+                    />
+                  </button>
+                </PopoverChild>
+                <PopoverChild itemKey={1} role="none">
+                  <button role="menuitem" tabIndex="-1">
+                    <Temp
+                      style={{ backgroundColor: "green" }}
+                      onClick={() => {
+                        tempMethod("dover-overcast");
+                      }}
+                    />
+                  </button>
+                </PopoverChild>
+                <PopoverChild itemKey={2} role="none">
+                  <button role="menuitem" tabIndex="-1">
+                    <Temp
+                      style={{ backgroundColor: "blue" }}
+                      onClick={() => {
+                        tempMethod("theme-three");
+                      }}
+                    />
+                  </button>
+                </PopoverChild>
+                <PopoverChild itemKey={3} role="none">
+                  <button role="menuitem" tabIndex="-1">
+                    <Temp />
+                  </button>
+                </PopoverChild>
+              </Popover>
+            </MenuItem>
+            <MenuItem role="none">
+              <button
+                role="menuitem"
+                aria-haspopup="true"
+                aria-expanded="false"
+                tabIndex="-1"
+              >
+                Socials
+              </button>
+              <Popover numChildren={4} role="menu" aria-label="socials">
+                <PopoverChild itemKey={0} role="none">
+                  <a
+                    role="menuitem"
+                    tabIndex="-1"
+                    href="mailto:thevancetan@gmail.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <Email fill="var(--color-text)" />
+                  </a>
+                </PopoverChild>
+                <PopoverChild itemKey={1} role="none">
+                  <a
+                    role="menuitem"
+                    tabIndex="-1"
+                    href="https://twitter.com/vxncetxn"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <Twitter fill="var(--color-text)" />
+                  </a>
+                </PopoverChild>
+                <PopoverChild itemKey={2} role="none">
+                  <a
+                    role="menuitem"
+                    tabIndex="-1"
+                    href="https://www.linkedin.com/in/vance-tan-xr"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <Linkedin fill="var(--color-text)" />
+                  </a>
+                </PopoverChild>
+                <PopoverChild itemKey={3} role="none">
+                  <a
+                    role="menuitem"
+                    tabIndex="-1"
+                    href="https://github.com/vxncetxn"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <Github fill="var(--color-text)" />
+                  </a>
+                </PopoverChild>
+              </Popover>
+            </MenuItem>
+          </Others>
+        </li>
+      </Menubar>
+    </StyledNav>
   );
 };
 
