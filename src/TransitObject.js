@@ -34,14 +34,18 @@ const TransitObject = ({ children, to, className, disabled }) => {
             document.querySelector(
               "#index"
             ).style.transform = `translate3d(0,-${window.innerHeight}px,0)`;
+            setTimeout(() => {
+              document.querySelector("#main").style.visibility = "hidden";
+            }, 800);
           } else if (to === "main") {
+            document.querySelector("#main").style.visibility = "visible";
             window.history.pushState("", "", `/`);
-            window.scrollTo(0, 0);
+            window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
             document.querySelector("#index").style.transform =
               "translate3d(0,0,0)";
             setTimeout(() => {
               setSection("main");
-            }, 500);
+            }, 800);
           } else {
             window.history.pushState("", "", `/${to}`);
             setSection(to);

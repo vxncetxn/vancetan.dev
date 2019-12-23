@@ -1,13 +1,14 @@
-import React from "react";
-import styled from "styled-components";
+import React, { useEffect } from "react";
+import styled, { keyframes } from "styled-components";
 import { graphql, useStaticQuery } from "gatsby";
+import { window } from "browser-monads";
 import Img from "gatsby-image";
-import Div100vh from "react-div-100vh";
 
 import Brainwave from "../assets/graphics/brainwave-vA.svg";
+import Star from "../assets/icons/misc/star.svg";
 import InternalLink from "../InternalLink";
 
-const StyledMain = styled(Div100vh)`
+const StyledMain = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
@@ -86,6 +87,7 @@ const MainText = styled.p`
 `;
 
 const HeadImgContainer = styled.div`
+  position: relative;
   width: 25vw;
   display: flex;
   justify-content: center;
@@ -108,7 +110,61 @@ const HeadImgContainer = styled.div`
   }
 
   @media (max-width: 375px) {
-    width: 80vw;
+    width: 65vw;
+  }
+`;
+
+const Pulsate = keyframes`
+  100% {
+    transform: scale(1.2);
+  }
+`;
+
+const StarLeft = styled(Star)`
+  width: 5vw;
+  position: absolute;
+  left: 20%;
+  bottom: 5%;
+  animation: ${Pulsate} 0.4s linear infinite;
+
+  & > path {
+    fill: var(--color-background);
+  }
+
+  @media (max-width: 1220px) {
+    width: 70px;
+  }
+
+  @media (max-width: 550px) {
+    width: 60px;
+  }
+
+  @media (max-width: 375px) {
+    width: 50px;
+  }
+`;
+
+const StarRight = styled(Star)`
+  width: 5vw;
+  position: absolute;
+  left: 60%;
+  bottom: 5%;
+  animation: ${Pulsate} 0.4s linear infinite;
+
+  & > path {
+    fill: var(--color-background);
+  }
+
+  @media (max-width: 1220px) {
+    width: 70px;
+  }
+
+  @media (max-width: 550px) {
+    width: 60px;
+  }
+
+  @media (max-width: 375px) {
+    width: 50px;
   }
 `;
 
@@ -129,6 +185,10 @@ const Main = ({ isPortrait }) => {
       }
     }
   `).allFile.edges;
+
+  useEffect(() => {
+    document.querySelector("#main").style.height = `${window.innerHeight}px`;
+  }, []);
 
   return (
     <StyledMain id="main">
@@ -156,6 +216,8 @@ const Main = ({ isPortrait }) => {
             alt="Head photo of Vance Tan"
           />
         )}
+        <StarLeft />
+        <StarRight />
       </HeadImgContainer>
     </StyledMain>
   );

@@ -9,7 +9,6 @@ const BottomImgContainer = styled.div`
   display: flex;
   justify-content: center;
   position: relative;
-  //   border: 1px solid blue;
 
   & > .gatsby-image-wrapper {
     width: 100%;
@@ -28,7 +27,7 @@ const BottomImgContainer = styled.div`
   }
 
   @media (max-width: 375px) {
-    width: 80vw;
+    width: 70vw;
   }
 `;
 

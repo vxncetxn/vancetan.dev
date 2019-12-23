@@ -6,7 +6,22 @@ module.exports = {
     `gatsby-image`,
     `gatsby-transformer-sharp`,
     `gatsby-plugin-sharp`,
-    `gatsby-plugin-mdx`,
+    {
+      resolve: `gatsby-plugin-mdx`,
+      options: {
+        gatsbyRemarkPlugins: [
+          {
+            resolve: `gatsby-remark-images`,
+            options: {
+              maxWidth: 1200,
+              wrapperStyle: "background-color: var(--color-layer-top);",
+              withWebp: true,
+              tracedSVG: true
+            }
+          }
+        ]
+      }
+    },
     {
       resolve: `gatsby-plugin-create-client-paths`,
       options: { prefixes: [`/*`] }
@@ -14,7 +29,7 @@ module.exports = {
     {
       resolve: `gatsby-plugin-google-fonts`,
       options: {
-        fonts: [`oswald\:400,600`, `roboto mono\:400,500`],
+        fonts: [`oswald\:400,600`, `roboto mono\:400,500,600`],
         display: "swap"
       }
     },

@@ -6,8 +6,7 @@ import formatIndexNum from "../Helpers/formatIndexNum";
 
 const ProjectsList = styled.ul`
   text-align: center;
-  padding: 0 15%;
-  margin: 100px 0;
+  padding: 100px 15%;
 
   & * + * {
     margin-top: 50px;
@@ -19,7 +18,7 @@ const ProjectsList = styled.ul`
 
   @media (max-width: 550px) {
     text-align: left;
-    padding: 0 50px 0 20px;
+    padding: 100px 50px 50px 20px;
   }
 `;
 
@@ -84,7 +83,7 @@ const WorkMain = ({ projectsIndex }) => {
       <ProjectsList>
         {projectsIndex.map((proj, idx) => {
           return (
-            <li>
+            <li key={proj.path}>
               <ProjectTitle
                 before={`${formatIndexNum(idx + 1)} / ${proj.tags}`}
               >

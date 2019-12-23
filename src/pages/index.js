@@ -126,6 +126,7 @@ export default () => {
 
   useEffect(() => {
     if (window.location.pathname.slice(1)) {
+      document.querySelector("#main").style.visibility = "hidden";
       document.querySelector(
         "#index"
       ).style.transform = `translate3d(0,-${window.innerHeight}px,0)`;
@@ -144,10 +145,14 @@ export default () => {
           document.querySelector(
             "#index"
           ).style.transform = `translate3d(0,-${window.innerHeight}px,0)`;
+          setTimeout(() => {
+            document.querySelector("#main").style.visibility = "hidden";
+          }, 600);
         } else {
           setSection(window.location.pathname.slice(1));
         }
       } else {
+        document.querySelector("#main").style.visibility = "visible";
         document.querySelector("#index").style.transform = "translate3d(0,0,0)";
         setTimeout(() => {
           setSection("main");
@@ -180,13 +185,14 @@ export default () => {
     return pathD;
   };
 
-  const createLinkUnderline = linkWidth => {
+  const createLinkUnderline = (linkWidth, linkHeight) => {
     const underline = document.createElementNS(
       "http://www.w3.org/2000/svg",
       "svg"
     );
     underline.setAttribute("width", linkWidth);
     underline.setAttribute("height", "20");
+    underline.style.top = `${linkHeight - linkHeight * 0.25}px`;
     underline.setAttribute("class", "link-underline-svg");
 
     const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
@@ -239,10 +245,11 @@ export default () => {
 
       if (link.children.length) {
         link.children[0].setAttribute("width", linkWidth);
+        link.children[0].style.top = `${linkHeight - linkHeight * 0.25}px`;
         link.children[1].setAttribute("width", linkWidth + 25);
         link.children[1].setAttribute("height", linkHeight + 20);
       } else {
-        const underline = createLinkUnderline(linkWidth);
+        const underline = createLinkUnderline(linkWidth, linkHeight);
         const circle = createLinkCircle(linkWidth, linkHeight);
         link.appendChild(underline);
         link.appendChild(circle);
@@ -312,15 +319,20 @@ export default () => {
       const project = projectsActual.filter(
         project => project.path === section.slice(9)
       )[0];
-      return (
-        <>
-          <BottomBase
-            title={`Project-${formatIndexNum(project.index)}`}
-            isPortrait={isPortrait}
-          />
-          <ProjectTemplate project={project} />
-        </>
-      );
+
+      if (project) {
+        return (
+          <>
+            <BottomBase
+              title={`Project-${formatIndexNum(project.index)}`}
+              isPortrait={isPortrait}
+            />
+            <ProjectTemplate project={project} />
+          </>
+        );
+      } else {
+        return null;
+      }
     } else if (section.match(/writings\/[a-zA-Z0-9-]+$/g)) {
       return <WritingTemplate />;
     }

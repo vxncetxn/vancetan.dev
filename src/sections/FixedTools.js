@@ -6,7 +6,7 @@ import Github from "../assets/icons/socials/github.svg";
 import Linkedin from "../assets/icons/socials/linkedin.svg";
 import Twitter from "../assets/icons/socials/twitter.svg";
 import Email from "../assets/icons/socials/email.svg";
-import Music from "../assets/icons/misc/music.svg";
+// import Music from "../assets/icons/misc/music.svg";
 import SectionContext from "../SectionContext";
 
 const Popover = styled.ul`
@@ -51,7 +51,7 @@ const StyledNav = styled.nav`
   bottom: 0;
   z-index: 999;
 
-  @media (max-width: 833px) {
+  @media (orientation: portrait) and (max-width: 833px) {
     transform-origin: center right;
     transform: rotate(90deg);
     right: 40px;
@@ -77,7 +77,7 @@ const Menubar = styled.ul`
     margin-left: 30px;
   }
 
-  @media (max-width: 833px) {
+  @media (orientation: portrait) and (max-width: 833px) {
     padding: 0;
   }
 
@@ -107,7 +107,7 @@ const Others = styled.ul`
     margin-top: 30px;
   }
 
-  @media (max-width: 833px) {
+  @media (orientation: portrait) and (max-width: 833px) {
     display: none;
   }
 `;
@@ -157,6 +157,7 @@ const FixedTools = ({ setTheme }) => {
             tabIndex="-1"
             to="writings"
             circled={sectionContext.section === "writings"}
+            disabled
           >
             Writings
           </InternalLink>

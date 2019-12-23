@@ -1,17 +1,22 @@
 import React from "react";
 import styled from "styled-components";
+import { MDXProvider } from "@mdx-js/react";
 import { MDXRenderer } from "gatsby-plugin-mdx";
 import { graphql, useStaticQuery } from "gatsby";
 import Img from "gatsby-image";
 
+import Highlight from "../components/Highlight";
+
 import InternalLink from "../InternalLink";
+
+const shortcodes = { Highlight };
 
 const ProjectTemplate = styled.div`
   padding: 100px 0;
-`;
 
-const StyledImg = styled(Img)`
-  background-color: ${props => props.imgBackgroundColor};
+  @media (max-width: 550px) {
+    padding: 100px 0 50px 0;
+  }
 `;
 
 const ProjectNav = styled.div`
@@ -45,7 +50,8 @@ const ProjectNav = styled.div`
   }
 `;
 
-const ProjectHero = styled.div`
+const StyledImg = styled(Img)`
+  background-color: ${props => props.imgBackgroundColor};
   position: relative;
   margin-top: 20px;
 
@@ -57,11 +63,9 @@ const ProjectHero = styled.div`
 `;
 
 const ProjectTitle = styled.h1`
-  position: absolute;
-  left: 0;
-  bottom: 20px;
-  width: 90%;
-  padding-left: 30px;
+  margin-top: 50px;
+  padding: 0 calc(15% + 30px);
+
   font-family: var(--font-secondary);
   font-weight: 600;
   font-size: 4vw;
@@ -72,12 +76,12 @@ const ProjectTitle = styled.h1`
   }
 
   @media (max-width: 833px) {
-    padding-left: 50px;
+    width: 90%;
+    padding: 0 50px;
   }
 
   @media (max-width: 550px) {
-    padding-left: 20px;
-    bottom: 10px;
+    padding: 0 20px;
     font-size: 32px;
   }
 
@@ -93,7 +97,7 @@ const ProjectContent = styled.div`
   font-size: 1.5vw;
   color: var(--color-text);
   line-height: 1.6;
-  margin-top: 50px;
+  margin-top: 30px;
   padding: 0 calc(15% + 30px);
 
   @media (max-width: 1220px) {
@@ -168,12 +172,21 @@ const ProjectInfoItem = styled.div`
   }
 `;
 
+// const ProjectBody = styled.div`
+//   margin: 100px 15%;
+
+//   @media (max-width: 833px) {
+//     margin: 0;
+//   }
+// `;
+
 const ProjectTemplateComp = ({ project }) => {
   const projectImages = useStaticQuery(graphql`
     query {
       allFile(filter: { sourceInstanceName: { eq: "project-images" } }) {
         edges {
           node {
+            name
             childImageSharp {
               fluid {
                 ...GatsbyImageSharpFluid_withWebp_tracedSVG
@@ -183,7 +196,7 @@ const ProjectTemplateComp = ({ project }) => {
         }
       }
     }
-  `).allFile.edges;
+  `).allFile.edges.filter(edge => edge.node.name === project.path);
 
   return (
     <ProjectTemplate>
@@ -201,17 +214,17 @@ const ProjectTemplateComp = ({ project }) => {
           Next →
         </InternalLink>
       </ProjectNav>
-      <ProjectHero>
-        <StyledImg
-          fluid={projectImages[0].node.childImageSharp.fluid}
-          alt="some pic"
-          imgBackgroundColor="var(--color-layer-top)"
-        />
-        <ProjectTitle>{project.title}</ProjectTitle>
-      </ProjectHero>
+      <StyledImg
+        fluid={projectImages[0].node.childImageSharp.fluid}
+        alt="some pic"
+        imgBackgroundColor="var(--color-layer-top)"
+      />
+      <ProjectTitle>{project.title}</ProjectTitle>
       <ProjectContent>
         <ProjectDesc>
-          <MDXRenderer>{project.body}</MDXRenderer>
+          <MDXProvider components={shortcodes}>
+            <MDXRenderer>{project.body}</MDXRenderer>
+          </MDXProvider>
         </ProjectDesc>
         <ProjectInfo>
           <ProjectInfoItem before="Contributions">
@@ -220,7 +233,12 @@ const ProjectTemplateComp = ({ project }) => {
           <ProjectInfoItem before="Tech Stack">{project.tech}</ProjectInfoItem>
           <ProjectInfoItem before="View Project">
             {project.source && (
-              <a className="link" href={project.source}>
+              <a
+                className="link"
+                href={project.source}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 Source
               </a>
             )}
@@ -228,6 +246,8 @@ const ProjectTemplateComp = ({ project }) => {
               <a
                 className="link"
                 href={project.demo}
+                target="_blank"
+                rel="noopener noreferrer"
                 style={{ marginLeft: "20px" }}
               >
                 Demo
@@ -236,6 +256,9 @@ const ProjectTemplateComp = ({ project }) => {
           </ProjectInfoItem>
         </ProjectInfo>
       </ProjectContent>
+      {/* <ProjectBody>
+        <MDXRenderer>{project.body}</MDXRenderer>
+      </ProjectBody> */}
     </ProjectTemplate>
   );
 };

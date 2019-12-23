@@ -11,6 +11,7 @@ const Defaults = createGlobalStyle`
       --color-background: #d47e54;
       --color-text: #ffffff;
       --color-layer-text: #ffffff;
+      --color-gray: #e6e6e6;
 
       // --color-layer-top: #233567;
       // --color-layer-middle: #315b96;
@@ -47,18 +48,20 @@ const Defaults = createGlobalStyle`
       --color-background: #ffdfdf;
       --color-text: #315b96;
       --color-layer-text: #ffffff;
+      --color-gray: #254674;
     }
 
     [theme="theme-three"] {
       --font-primary: "Roboto Mono";
       --font-secondary: "Oswald";
       
-      --color-layer-top: #c65364;
+      --color-layer-top: #C54F61;
       --color-layer-middle: #88304e;
       --color-layer-bottom: #522546;
       --color-background: #311d3f;
       --color-text: #ffffff;
       --color-layer-text: #ffffff;
+      --color-gray: #e6e6e6;
     }
 
     * {
@@ -109,29 +112,13 @@ const Defaults = createGlobalStyle`
 
     .link-underline-svg {
       position: absolute;
-      top: 22px;
-      // top: 10px;
       left: -2px;
-      // z-index: -1;
-
-      @media (max-width: 1220px) {
-        top: 19px;
-      }
-    
-      @media (max-width: 550px) {
-        top: 16px;
-      }
-    
-      @media (max-width: 375px) {
-        top: 13px;
-      }
     }
 
     .link-underline-path {
       fill: transparent;
       stroke: var(--color-layer-top);
       stroke-width: 7;
-      // stroke-width: 15;
       stroke-linecap: round;
 
       @media (max-width: 1220px) {
@@ -149,7 +136,7 @@ const Defaults = createGlobalStyle`
 
     .link-circle-svg {
       position: absolute;
-      top: -10px;
+      bottom: -10px;
       left: -10px;
     }
 
