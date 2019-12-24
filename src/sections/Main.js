@@ -6,7 +6,6 @@ import Img from "gatsby-image";
 
 import Brainwave from "../assets/graphics/brainwave-vA.svg";
 import Star from "../assets/icons/misc/star.svg";
-import InternalLink from "../InternalLink";
 
 const StyledMain = styled.div`
   position: relative;
@@ -46,7 +45,7 @@ const MainTitle = styled.h1`
   font-family: var(--font-secondary);
   font-weight: 600;
   font-size: 5vw;
-  color: var(--color-background);
+  color: var(--color-main-title);
   margin-top: -15px;
   transition: color 0.6s ease-out;
 
@@ -77,6 +76,10 @@ const MainText = styled.p`
     font-size: 18px;
   }
 
+  @media (max-width: 833px) {
+    font-size: 16px;
+  }
+
   @media (max-width: 550px) {
     font-size: 14px;
   }
@@ -98,19 +101,23 @@ const HeadImgContainer = styled.div`
   }
 
   @media (max-width: 1220px) {
-    width: 35vw;
+    // width: 35vw;
+    width: 380px;
   }
 
-  @media (max-width: 833px) {
-    width: 45vw;
+  @media (orientation: portrait) and (max-width: 833px) {
+    // width: 45vw;
+    width: 300px;
   }
 
   @media (max-width: 550px) {
-    width: 60vw;
+    // width: 60vw;
+    width: 260px;
   }
 
   @media (max-width: 375px) {
-    width: 65vw;
+    // width: 65vw;
+    width: 240px;
   }
 `;
 
@@ -197,11 +204,9 @@ const Main = ({ isPortrait }) => {
         <MainText>Hello, I am</MainText>
         <MainTitle>Vance Tan.</MainTitle>
         <MainText style={{ marginTop: "15px" }}>
-          As a creative software engineer, I dream big and bold, then try (my
-          best) to build them. Check out my{" "}
-          <InternalLink to="projects">work</InternalLink>, read some of my{" "}
-          <InternalLink to="writings">musings</InternalLink> and of course, feel
-          free to <InternalLink to="contact">speak</InternalLink> with me.
+          I am a creative software engineer that works across the stack,
+          hobbyist photographer and an absolute fan of good food. Have a look
+          around here and feel free to reach out!
         </MainText>
       </MainTextBlock>
       <HeadImgContainer className="head-image-container">

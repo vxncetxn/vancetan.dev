@@ -48,7 +48,8 @@ const InputField = styled.input`
   }
 
   &::placeholder {
-    color: var(--color-gray);
+    color: var(--color-text);
+    opacity: 0.4;
   }
 
   @media (max-width: 550px) {

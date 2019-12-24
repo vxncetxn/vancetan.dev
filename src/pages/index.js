@@ -84,7 +84,7 @@ export default () => {
       ? window.location.pathname.slice(1)
       : "main"
   );
-  const [theme, setTheme] = useState("nevada-sunset");
+  const [theme, setTheme] = useState("mojave-sunset");
   const [isPortrait, setIsPortrait] = useState(
     window.matchMedia("(orientation: portrait)").matches
   );
@@ -150,6 +150,7 @@ export default () => {
           }, 600);
         } else {
           setSection(window.location.pathname.slice(1));
+          window.scrollTo(0, 0);
         }
       } else {
         document.querySelector("#main").style.visibility = "visible";
@@ -347,7 +348,7 @@ export default () => {
         }}
       >
         <Defaults />
-        <FixedTools setTheme={setTheme} />
+        <FixedTools theme={theme} setTheme={setTheme} />
         <StyledIndex id="index">
           <Main isPortrait={isPortrait} />
           {renderBottom(section)}

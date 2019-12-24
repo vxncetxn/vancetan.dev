@@ -15,19 +15,23 @@ const BottomImgContainer = styled.div`
   }
 
   @media (max-width: 1220px) {
-    width: 35vw;
+    // width: 35vw;
+    width: 380px;
   }
 
-  @media (max-width: 833px) {
-    width: 45vw;
+  @media (orientation: portrait) and (max-width: 833px) {
+    // width: 45vw;
+    width: 300px;
   }
 
   @media (max-width: 550px) {
-    width: 60vw;
+    // width: 60vw;
+    width: 260px;
   }
 
   @media (max-width: 375px) {
-    width: 70vw;
+    // width: 65vw;
+    width: 240px;
   }
 `;
 
