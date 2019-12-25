@@ -176,12 +176,14 @@ const FixedTools = ({ theme, setTheme }) => {
   const sectionContext = useContext(SectionContext);
 
   useEffect(() => {
-    document
-      .querySelectorAll(`.theme-outline:not(.${theme}-outline)`)
-      .forEach(path => path.setAttribute("stroke", "none"));
-    document
-      .querySelectorAll(`.${theme}-outline`)
-      .forEach(path => path.setAttribute("stroke", "#ffffff"));
+    for (const path of document.querySelectorAll(
+      `.theme-outline:not(.${theme}-outline)`
+    )) {
+      path.setAttribute("stroke", "none");
+    }
+    for (const path of document.querySelectorAll(`.${theme}-outline`)) {
+      path.setAttribute("stroke", "#ffffff");
+    }
   }, [theme]);
 
   const modifyTheme = theme => {
@@ -245,19 +247,22 @@ const FixedTools = ({ theme, setTheme }) => {
             Contact
           </InternalLink>
         </li>
-        <MenuItem className="others-two" role="none">
+        <MenuItem
+          className="others-two"
+          role="none"
+          onMouseEnter={e => {
+            openSubmenu("themes-submenu-narrow");
+          }}
+          onMouseLeave={() => {
+            closeSubmenu("themes-submenu-narrow");
+          }}
+        >
           <div
             role="menuitem"
             aria-haspopup="true"
             aria-expanded="false"
             aria-label="Themes"
             tabIndex="0"
-            onMouseEnter={() => {
-              openSubmenu("themes-submenu-narrow");
-            }}
-            onMouseLeave={() => {
-              closeSubmenu("themes-submenu-narrow");
-            }}
             onKeyDown={e => {
               if (e.key === " " || e.key === "Enter") {
                 e.preventDefault();
@@ -327,19 +332,22 @@ const FixedTools = ({ theme, setTheme }) => {
             })}
           </Popover>
         </MenuItem>
-        <MenuItem className="others-two" role="none">
+        <MenuItem
+          className="others-two"
+          role="none"
+          onMouseEnter={() => {
+            openSubmenu("socials-submenu-narrow");
+          }}
+          onMouseLeave={() => {
+            closeSubmenu("socials-submenu-narrow");
+          }}
+        >
           <div
             role="menuitem"
             aria-haspopup="true"
             aria-expanded="false"
             aria-label="Socials"
             tabIndex="0"
-            onMouseEnter={() => {
-              openSubmenu("socials-submenu-narrow");
-            }}
-            onMouseLeave={() => {
-              closeSubmenu("socials-submenu-narrow");
-            }}
             onKeyDown={e => {
               if (e.key === " " || e.key === "Enter") {
                 e.preventDefault();
@@ -409,19 +417,21 @@ const FixedTools = ({ theme, setTheme }) => {
         </MenuItem>
         <li role="none">
           <Others>
-            <MenuItem role="none">
+            <MenuItem
+              role="none"
+              onMouseEnter={() => {
+                openSubmenu("themes-submenu-wide");
+              }}
+              onMouseLeave={() => {
+                closeSubmenu("themes-submenu-wide");
+              }}
+            >
               <div
                 role="menuitem"
                 aria-haspopup="true"
                 aria-expanded="false"
                 aria-label="Themes"
                 tabIndex="0"
-                onMouseEnter={() => {
-                  openSubmenu("themes-submenu-wide");
-                }}
-                onMouseLeave={() => {
-                  closeSubmenu("themes-submenu-wide");
-                }}
                 onKeyDown={e => {
                   if (e.key === " " || e.key === "Enter") {
                     e.preventDefault();
@@ -495,19 +505,21 @@ const FixedTools = ({ theme, setTheme }) => {
                 })}
               </Popover>
             </MenuItem>
-            <MenuItem role="none">
+            <MenuItem
+              role="none"
+              onMouseEnter={() => {
+                openSubmenu("socials-submenu-wide");
+              }}
+              onMouseLeave={() => {
+                closeSubmenu("socials-submenu-wide");
+              }}
+            >
               <div
                 role="menuitem"
                 aria-haspopup="true"
                 aria-expanded="false"
                 aria-label="Socials"
                 tabIndex="0"
-                onMouseEnter={() => {
-                  openSubmenu("socials-submenu-wide");
-                }}
-                onMouseLeave={() => {
-                  closeSubmenu("socials-submenu-wide");
-                }}
                 onKeyDown={e => {
                   if (e.key === " " || e.key === "Enter") {
                     e.preventDefault();

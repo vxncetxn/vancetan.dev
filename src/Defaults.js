@@ -102,9 +102,7 @@ const Defaults = createGlobalStyle`
       background-color: var(--color-background);
       transition: background-color 0.6s ease-out;
 
-      @media (max-width: 768px) {
-        // background-color: blue;
-      }
+      overflow: hidden;
     }
 
     ul {

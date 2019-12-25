@@ -25,17 +25,19 @@ const TransitObject = ({ children, to, className, disabled }) => {
       if (section === "main") {
         setSection(to);
         window.history.pushState("", "", `/${to}`);
-        document.querySelector(
-          "#index"
+        document.getElementById(
+          "index"
         ).style.transform = `translate3d(0,-${window.innerHeight}px,0)`;
+        document.querySelector("body").style.overflow = "auto";
         setTimeout(() => {
-          document.querySelector("#main").style.visibility = "hidden";
+          document.getElementById("main").style.visibility = "hidden";
         }, 800);
       } else if (to === "main") {
-        document.querySelector("#main").style.visibility = "visible";
+        document.querySelector("body").style.overflow = "hidden";
+        document.getElementById("main").style.visibility = "visible";
         window.history.pushState("", "", `/`);
         window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
-        document.querySelector("#index").style.transform = "translate3d(0,0,0)";
+        document.getElementById("index").style.transform = "translate3d(0,0,0)";
         setTimeout(() => {
           setSection("main");
         }, 800);

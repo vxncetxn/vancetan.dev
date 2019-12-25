@@ -2,13 +2,9 @@ import React from "react";
 import styled from "styled-components";
 
 const FormSubmitButton = styled.button`
-  // width: 100%;
-  // display: block;
-  // text-align: right;
   margin-bottom: 0;
   font-family: var(--font-secondary);
   font-weight: 600;
-  //   font-size: 4vw;
   font-size: 44px;
   color: var(--color-text);
   text-transform: uppercase;

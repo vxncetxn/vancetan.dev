@@ -195,7 +195,7 @@ const Main = ({ isPortrait }) => {
 
   useEffect(() => {
     document.querySelector("#main").style.height = `${window.innerHeight}px`;
-  }, []);
+  }, [isPortrait]);
 
   return (
     <StyledMain id="main">

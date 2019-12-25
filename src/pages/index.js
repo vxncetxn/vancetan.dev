@@ -42,25 +42,25 @@ export default () => {
       }
     }
   `).allMdx.edges;
-  const projectsContent = content.filter(
-    item => item.node.frontmatter.type === "projects"
-  );
-  const writingsContent = content.filter(
-    item => item.node.frontmatter.type === "writings"
-  );
+  const projectsContent = content
+    .filter(item => item.node.frontmatter.type === "projects")
+    .sort((a, b) => a.node.frontmatter.index - b.node.frontmatter.index);
+  const writingsContent = content
+    .filter(item => item.node.frontmatter.type === "writings")
+    .sort((a, b) => a.node.frontmatter.index - b.node.frontmatter.index);
 
-  const projectsIndex = projectsContent
-    .sort((a, b) => a.node.frontmatter.index - b.node.frontmatter.index)
-    .map(item => {
-      return {
-        path: item.node.frontmatter.path,
-        title: item.node.frontmatter.title,
-        tags: item.node.frontmatter.tags
-      };
+  const projectsIndex = [];
+  const projectsArr = [];
+  // const writingsIndex = [];
+  // const writingsArr = [];
+
+  projectsContent.map((item, idx) => {
+    projectsIndex.push({
+      path: item.node.frontmatter.path,
+      title: item.node.frontmatter.title,
+      tags: item.node.frontmatter.tags
     });
-
-  const projectsActual = projectsContent.map((item, idx) => {
-    return {
+    projectsArr.push({
       body: item.node.body,
       path: item.node.frontmatter.path,
       index: item.node.frontmatter.index,
@@ -76,7 +76,7 @@ export default () => {
         idx !== projectsContent.length - 1
           ? projectsContent[idx + 1].node.frontmatter.path
           : null
-    };
+    });
   });
 
   const [section, setSection] = useState(
@@ -105,19 +105,17 @@ export default () => {
       setTheme(localStorage.getItem("theme"));
     }
 
-    window.addEventListener("resize", () => {
-      setScreenWidth(
-        window.matchMedia("(max-width: 375px)").matches
-          ? "mobile-very-narrow"
-          : window.matchMedia("(max-width: 550px)").matches
-          ? "mobile-narrow"
-          : window.matchMedia("(max-width: 833px)").matches
-          ? "mobile-wide"
-          : window.matchMedia("(max-width: 1200px)").matches
-          ? "desktop-narrow"
-          : "desktop-wide"
-      );
-    });
+    if (window.location.pathname.slice(1)) {
+      document.querySelector("body").style.overflow = "auto";
+      document.getElementById("main").style.visibility = "hidden";
+      document.getElementById(
+        "index"
+      ).style.transform = `translate3d(0,-${window.innerHeight}px,0)`;
+    }
+    setTimeout(() => {
+      document.getElementById("index").style.transition =
+        "transform 0.5s linear";
+    }, 100);
   }, []);
 
   useEffect(() => {
@@ -125,36 +123,23 @@ export default () => {
   }, [theme]);
 
   useEffect(() => {
-    if (window.location.pathname.slice(1)) {
-      document.querySelector("#main").style.visibility = "hidden";
-      document.querySelector(
-        "#index"
-      ).style.transform = `translate3d(0,-${window.innerHeight}px,0)`;
-    }
-    setTimeout(() => {
-      document.querySelector("#index").style.transition =
-        "transform 0.5s linear";
-    }, 100);
-  }, []);
-
-  useEffect(() => {
     window.onpopstate = function() {
       if (window.location.pathname.slice(1)) {
         if (section === "main") {
           setSection(window.location.pathname.slice(1));
-          document.querySelector(
-            "#index"
+          document.getElementById(
+            "index"
           ).style.transform = `translate3d(0,-${window.innerHeight}px,0)`;
           setTimeout(() => {
-            document.querySelector("#main").style.visibility = "hidden";
+            document.getElementById("main").style.visibility = "hidden";
           }, 600);
         } else {
           setSection(window.location.pathname.slice(1));
           window.scrollTo(0, 0);
         }
       } else {
-        document.querySelector("#main").style.visibility = "visible";
-        document.querySelector("#index").style.transform = "translate3d(0,0,0)";
+        document.getElementById("main").style.visibility = "visible";
+        document.getElementById("index").style.transform = "translate3d(0,0,0)";
         setTimeout(() => {
           setSection("main");
         }, 500);
@@ -240,7 +225,7 @@ export default () => {
   };
 
   useEffect(() => {
-    document.querySelectorAll(".link").forEach(link => {
+    for (const link of document.querySelectorAll(".link")) {
       const linkWidth = parseInt(link.offsetWidth);
       const linkHeight = parseInt(link.offsetHeight);
 
@@ -255,7 +240,7 @@ export default () => {
         link.appendChild(underline);
         link.appendChild(circle);
       }
-    });
+    }
   }, [section, screenWidth]);
 
   const resizeMainVisual = () => {
@@ -268,18 +253,40 @@ export default () => {
     }
   };
 
-  const onWindowResize = () => {
-    if (isPortrait) {
-      if (window.matchMedia("(orientation: landscape)").matches) {
-        setIsPortrait(!isPortrait);
-      }
-    } else {
-      if (window.matchMedia("(orientation: portrait)").matches) {
-        setIsPortrait(!isPortrait);
-      }
-    }
+  var scheduledAnimationFrameForResize;
 
-    resizeMainVisual();
+  const onWindowResize = () => {
+    if (scheduledAnimationFrameForResize) {
+      return;
+    }
+    scheduledAnimationFrameForResize = true;
+    requestAnimationFrame(() => {
+      setScreenWidth(
+        window.matchMedia("(max-width: 375px)").matches
+          ? "mobile-very-narrow"
+          : window.matchMedia("(max-width: 550px)").matches
+          ? "mobile-narrow"
+          : window.matchMedia("(max-width: 833px)").matches
+          ? "mobile-wide"
+          : window.matchMedia("(max-width: 1200px)").matches
+          ? "desktop-narrow"
+          : "desktop-wide"
+      );
+
+      if (isPortrait) {
+        if (window.matchMedia("(orientation: landscape)").matches) {
+          setIsPortrait(!isPortrait);
+        }
+      } else {
+        if (window.matchMedia("(orientation: portrait)").matches) {
+          setIsPortrait(!isPortrait);
+        }
+      }
+
+      resizeMainVisual();
+
+      scheduledAnimationFrameForResize = false;
+    });
   };
 
   useEffect(() => {
@@ -294,7 +301,7 @@ export default () => {
 
   const renderBottom = section => {
     if (section === "main") {
-      return null;
+      return <BottomBase title={""} isPortrait={isPortrait} />;
     } else if (section === "projects") {
       return (
         <>
@@ -317,9 +324,9 @@ export default () => {
         </>
       );
     } else if (section.match(/projects\/[a-zA-Z0-9-]+$/g)) {
-      const project = projectsActual.filter(
+      const project = projectsArr.find(
         project => project.path === section.slice(9)
-      )[0];
+      );
 
       if (project) {
         return (

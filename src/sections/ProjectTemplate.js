@@ -181,7 +181,7 @@ const ProjectInfoItem = styled.div`
 // `;
 
 const ProjectTemplateComp = ({ project }) => {
-  const projectImages = useStaticQuery(graphql`
+  const projectImage = useStaticQuery(graphql`
     query {
       allFile(filter: { sourceInstanceName: { eq: "project-images" } }) {
         edges {
@@ -196,7 +196,7 @@ const ProjectTemplateComp = ({ project }) => {
         }
       }
     }
-  `).allFile.edges.filter(edge => edge.node.name === project.path);
+  `).allFile.edges.find(edge => edge.node.name === project.path);
 
   return (
     <ProjectTemplate>
@@ -215,7 +215,7 @@ const ProjectTemplateComp = ({ project }) => {
         </InternalLink>
       </ProjectNav>
       <StyledImg
-        fluid={projectImages[0].node.childImageSharp.fluid}
+        fluid={projectImage.node.childImageSharp.fluid}
         alt="some pic"
         imgBackgroundColor="var(--color-layer-top)"
       />

@@ -5,6 +5,10 @@ const TextareaBlock = styled.div`
   & > label + textarea {
     margin-top: 10px;
   }
+
+  & > textarea + p {
+    margin-top: 20px;
+  }
 `;
 
 const TextareaLabel = styled.label`
@@ -35,11 +39,18 @@ const TextareaField = styled.textarea`
   background-color: transparent;
   font-family: var(--font-secondary);
   font-weight: 600;
-  //   font-size: 4vw;
-  font-size: 44px;
+  font-size: 4vw;
+  // font-size: 44px;
   color: var(--color-text);
-  text-transform: uppercase;
+  // text-transform: uppercase;
   resize: vertical;
+  ${props =>
+    props.error
+      ? `
+  border: 2px solid transparent;
+  outline: 5px solid var(--color-layer-top);
+  `
+      : null}
 
   &:focus {
     border: 2px solid transparent;
@@ -52,6 +63,14 @@ const TextareaField = styled.textarea`
     opacity: 0.4;
   }
 
+  @media (max-width: 1220px) {
+    font-size: 44px;
+  }
+
+  @media (max-width: 833px) {
+    font-size: 36px;
+  }
+
   @media (max-width: 550px) {
     font-size: 32px;
   }
@@ -61,11 +80,44 @@ const TextareaField = styled.textarea`
   }
 `;
 
-const FormTextareaComp = ({ name, label, placeholder }) => {
+const TextareaError = styled.p`
+  font-family: var(--font-primary), sans-serif;
+  font-size: 1.25vw;
+  font-weight: 500;
+  color: var(--color-layer-top);
+  height: 10px;
+
+  @media (max-width: 1220px) {
+    font-size: 18px;
+  }
+
+  @media (max-width: 550px) {
+    font-size: 14px;
+  }
+
+  @media (max-width: 375px) {
+    font-size: 12px;
+  }
+`;
+
+const FormTextareaComp = ({ name, label, placeholder, field, setField }) => {
   return (
     <TextareaBlock>
       <TextareaLabel htmlFor={name}>{label}</TextareaLabel>
-      <TextareaField name={name} id={name} placeholder={placeholder} />
+      <TextareaField
+        name={name}
+        id={name}
+        placeholder={placeholder}
+        value={field.value}
+        error={field.error}
+        onChange={e => {
+          setField({
+            ...field,
+            value: e.target.value
+          });
+        }}
+      />
+      <TextareaError>{field.error}</TextareaError>
     </TextareaBlock>
   );
 };
