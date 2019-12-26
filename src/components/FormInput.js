@@ -100,7 +100,14 @@ const InputError = styled.p`
   }
 `;
 
-const FormInputComp = ({ name, label, placeholder, field, setField }) => {
+const FormInputComp = ({
+  name,
+  label,
+  placeholder,
+  field,
+  setField,
+  onBlurHandler
+}) => {
   return (
     <InputBlock>
       <InputLabel htmlFor={name}>{label}</InputLabel>
@@ -117,6 +124,7 @@ const FormInputComp = ({ name, label, placeholder, field, setField }) => {
             value: e.target.value
           });
         }}
+        onBlur={onBlurHandler}
       />
       <InputError>{field.error}</InputError>
     </InputBlock>

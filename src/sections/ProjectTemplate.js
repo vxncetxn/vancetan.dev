@@ -51,7 +51,8 @@ const ProjectNav = styled.div`
 `;
 
 const StyledImg = styled(Img)`
-  background-color: ${props => props.imgBackgroundColor};
+  background-color: var(--color-layer-middle);
+  transition: background-color 0.6s ease-out;
   position: relative;
   margin-top: 20px;
 
@@ -69,7 +70,7 @@ const ProjectTitle = styled.h1`
   font-family: var(--font-secondary);
   font-weight: 600;
   font-size: 4vw;
-  color: var(--color-text);
+  color: var(--color-layer-top);
 
   @media (max-width: 1220px) {
     font-size: 44px;
@@ -150,7 +151,8 @@ const ProjectInfoItem = styled.div`
 
   &::before {
     content: "${props => props.before}";
-    color: var(--color-layer-top);
+    // color: var(--color-layer-top);
+    color: var(--color-accent);
     font-family: var(--font-primary);
     font-weight: 500;
     font-size: 1vw;
@@ -217,7 +219,6 @@ const ProjectTemplateComp = ({ project }) => {
       <StyledImg
         fluid={projectImage.node.childImageSharp.fluid}
         alt="some pic"
-        imgBackgroundColor="var(--color-layer-top)"
       />
       <ProjectTitle>{project.title}</ProjectTitle>
       <ProjectContent>
@@ -253,6 +254,9 @@ const ProjectTemplateComp = ({ project }) => {
                 Demo
               </a>
             )}
+            {!project.source && !project.demo
+              ? `Demo and Source will be published after course has completed!`
+              : null}
           </ProjectInfoItem>
         </ProjectInfo>
       </ProjectContent>

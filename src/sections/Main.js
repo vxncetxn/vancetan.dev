@@ -6,6 +6,8 @@ import Img from "gatsby-image";
 
 import Brainwave from "../assets/graphics/brainwave-vA.svg";
 import Star from "../assets/icons/misc/star.svg";
+import TopOverlayWide from "../assets/graphics/overlays/head-top-silhouette.svg";
+import TopOverlayNarrow from "../assets/graphics/overlays/head-top-narrow-silhouette.svg";
 
 const StyledMain = styled.div`
   position: relative;
@@ -47,7 +49,6 @@ const MainTitle = styled.h1`
   font-size: 5vw;
   color: var(--color-main-title);
   margin-top: -15px;
-  transition: color 0.6s ease-out;
 
   @media (max-width: 1220px) {
     font-size: 52px;
@@ -70,7 +71,6 @@ const MainText = styled.p`
   font-size: 1.5vw;
   color: var(--color-layer-text);
   line-height: 1.6;
-  transition: color 0.6s ease-out;
 
   @media (max-width: 1220px) {
     font-size: 18px;
@@ -100,6 +100,15 @@ const HeadImgContainer = styled.div`
     width: 100%;
   }
 
+  & > .overlay {
+    width: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    mix-blend-mode: overlay;
+    fill: var(--color-overlay);
+  }
+
   @media (max-width: 1220px) {
     // width: 35vw;
     width: 380px;
@@ -112,12 +121,12 @@ const HeadImgContainer = styled.div`
 
   @media (max-width: 550px) {
     // width: 60vw;
-    width: 260px;
+    width: 230px;
   }
 
   @media (max-width: 375px) {
     // width: 65vw;
-    width: 240px;
+    width: 200px;
   }
 `;
 
@@ -135,7 +144,7 @@ const StarLeft = styled(Star)`
   animation: ${Pulsate} 0.4s linear infinite;
 
   & > path {
-    fill: var(--color-background);
+    fill: var(--color-layer-top);
   }
 
   @media (max-width: 1220px) {
@@ -143,11 +152,11 @@ const StarLeft = styled(Star)`
   }
 
   @media (max-width: 550px) {
-    width: 60px;
+    width: 55px;
   }
 
   @media (max-width: 375px) {
-    width: 50px;
+    width: 45px;
   }
 `;
 
@@ -159,7 +168,7 @@ const StarRight = styled(Star)`
   animation: ${Pulsate} 0.4s linear infinite;
 
   & > path {
-    fill: var(--color-background);
+    fill: var(--color-layer-top);
   }
 
   @media (max-width: 1220px) {
@@ -167,11 +176,11 @@ const StarRight = styled(Star)`
   }
 
   @media (max-width: 550px) {
-    width: 60px;
+    width: 55px;
   }
 
   @media (max-width: 375px) {
-    width: 50px;
+    width: 45px;
   }
 `;
 
@@ -211,15 +220,21 @@ const Main = ({ isPortrait }) => {
       </MainTextBlock>
       <HeadImgContainer className="head-image-container">
         {isPortrait ? (
-          <Img
-            fluid={headImgLs[3].node.childImageSharp.fluid}
-            alt="Head photo of Vance Tan"
-          />
+          <>
+            <Img
+              fluid={headImgLs[3].node.childImageSharp.fluid}
+              alt="Head photo of Vance Tan"
+            />
+            <TopOverlayNarrow className="overlay" />
+          </>
         ) : (
-          <Img
-            fluid={headImgLs[1].node.childImageSharp.fluid}
-            alt="Head photo of Vance Tan"
-          />
+          <>
+            <Img
+              fluid={headImgLs[1].node.childImageSharp.fluid}
+              alt="Head photo of Vance Tan"
+            />
+            <TopOverlayWide className="overlay" />
+          </>
         )}
         <StarLeft />
         <StarRight />

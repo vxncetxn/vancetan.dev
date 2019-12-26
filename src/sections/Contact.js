@@ -165,9 +165,9 @@ const Contact = () => {
         method="post"
         data-netlify="true"
         data-netlify-honeypot="bot-field"
-        onBlur={e => {
-          validateField(e.target.name);
-        }}
+        // onBlur={e => {
+        //   validateField(e.target.name);
+        // }}
         onSubmit={e => {
           e.preventDefault();
           submitHandler();
@@ -181,6 +181,9 @@ const Contact = () => {
           placeholder="Jane Doe"
           field={nameField}
           setField={setNameField}
+          onBlurHandler={() => {
+            validateField("name");
+          }}
         />
         <FormInput
           name="email"
@@ -188,6 +191,9 @@ const Contact = () => {
           placeholder="janedoe@example.com"
           field={emailField}
           setField={setEmailField}
+          onBlurHandler={() => {
+            validateField("email");
+          }}
         />
         <FormTextarea
           name="message"
@@ -195,6 +201,9 @@ const Contact = () => {
           placeholder="Tell me more!"
           field={messageField}
           setField={setMessageField}
+          onBlurHandler={() => {
+            validateField("message");
+          }}
         />
         <FormSubmitButton />
         <FormMessagePara>{formMessage}</FormMessagePara>

@@ -30,11 +30,11 @@ const ProjectTitle = styled.h2`
   text-transform: uppercase;
   position: relative;
   word-wrap: break-word;
-  transition: color 0.6s ease-out;
 
   & ::before {
     content: "${props => props.before}";
-    color: var(--color-layer-top);
+    // color: var(--color-layer-top);
+    color: var(--color-accent);
     font-family: var(--font-primary);
     font-weight: 500;
     font-size: 1.25vw;

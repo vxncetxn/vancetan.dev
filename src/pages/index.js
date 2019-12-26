@@ -84,7 +84,7 @@ export default () => {
       ? window.location.pathname.slice(1)
       : "main"
   );
-  const [theme, setTheme] = useState("mojave-sunset");
+  const [theme, setTheme] = useState("theme-one");
   const [isPortrait, setIsPortrait] = useState(
     window.matchMedia("(orientation: portrait)").matches
   );

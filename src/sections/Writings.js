@@ -27,7 +27,6 @@ const WritingTitle = styled.h2`
   color: var(--color-text);
   text-transform: uppercase;
   position: relative;
-  transition: color 0.6s ease-out;
 
   & ::before {
     content: "${props => props.before}";

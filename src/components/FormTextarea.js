@@ -100,7 +100,14 @@ const TextareaError = styled.p`
   }
 `;
 
-const FormTextareaComp = ({ name, label, placeholder, field, setField }) => {
+const FormTextareaComp = ({
+  name,
+  label,
+  placeholder,
+  field,
+  setField,
+  onBlurHandler
+}) => {
   return (
     <TextareaBlock>
       <TextareaLabel htmlFor={name}>{label}</TextareaLabel>
@@ -116,6 +123,7 @@ const FormTextareaComp = ({ name, label, placeholder, field, setField }) => {
             value: e.target.value
           });
         }}
+        onBlur={onBlurHandler}
       />
       <TextareaError>{field.error}</TextareaError>
     </TextareaBlock>

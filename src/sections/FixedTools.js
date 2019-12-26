@@ -3,45 +3,44 @@ import styled from "styled-components";
 
 import InternalLink from "../InternalLink";
 
-import MojaveSunsetTheme from "../assets/icons/themes/mojave-sunset-theme.svg";
-import DoverOvercastTheme from "../assets/icons/themes/dover-overcast-theme.svg";
-import ThemeThreeTheme from "../assets/icons/themes/theme-three-theme.svg";
-import MuirSummerTheme from "../assets/icons/themes/muir-summer-theme.svg";
-import TomitaSummerTheme from "../assets/icons/themes/tomita-summer-theme.svg";
+import ThemeOne from "../assets/icons/themes/theme-one.svg";
+import ThemeTwo from "../assets/icons/themes/theme-two.svg";
+import ThemeThree from "../assets/icons/themes/theme-three.svg";
+import ThemeFour from "../assets/icons/themes/theme-four.svg";
+import ThemeFive from "../assets/icons/themes/theme-five.svg";
 
 import Github from "../assets/icons/socials/github.svg";
 import Linkedin from "../assets/icons/socials/linkedin.svg";
 import Twitter from "../assets/icons/socials/twitter.svg";
 import Email from "../assets/icons/socials/email.svg";
 
-// import Music from "../assets/icons/misc/music.svg";
 import SectionContext from "../SectionContext";
 
 const themes = [
   {
-    element: MojaveSunsetTheme,
-    themeName: "Mojave Sunset",
-    themeID: "mojave-sunset"
+    element: ThemeOne,
+    themeName: "",
+    themeID: "theme-one"
   },
   {
-    element: DoverOvercastTheme,
-    themeName: "Dover Overcast",
-    themeID: "dover-overcast"
+    element: ThemeTwo,
+    themeName: "",
+    themeID: "theme-two"
   },
   {
-    element: ThemeThreeTheme,
-    themeName: "Theme Three",
+    element: ThemeThree,
+    themeName: "",
     themeID: "theme-three"
   },
   {
-    element: MuirSummerTheme,
-    themeName: "Muir Summer",
-    themeID: "muir-summer"
+    element: ThemeFour,
+    themeName: "",
+    themeID: "theme-four"
   },
   {
-    element: TomitaSummerTheme,
-    themeName: "Tomita Summer",
-    themeID: "tomita-summer"
+    element: ThemeFive,
+    themeName: "",
+    themeID: "theme-five"
   }
 ];
 const socials = [
@@ -50,6 +49,36 @@ const socials = [
   { element: Twitter, href: "https://twitter.com/vxncetxn" },
   { element: Email, href: "mailto:thevancetan@gmail.com" }
 ];
+
+const StyledNav = styled.nav`
+  font-family: var(--font-secondary);
+  font-weight: 600;
+  font-size: 16px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--color-layer-top);
+  // mix-blend-mode: screen;
+
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  z-index: 999;
+
+  @media (orientation: portrait) and (max-width: 833px) {
+    writing-mode: vertical-lr;
+
+    right: 20px;
+    bottom: 10px;
+  }
+
+  @media (max-width: 550px) {
+    font-size: 14px;
+  }
+
+  @media (max-width: 375px) {
+    font-size: 12px;
+  }
+`;
 
 const Popover = styled.ul`
   display: none;
@@ -86,36 +115,6 @@ const PopoverChild = styled.li`
       width: 35px;
       height: 35px;
     }
-  }
-`;
-
-const StyledNav = styled.nav`
-  font-family: var(--font-secondary);
-  font-weight: 600;
-  font-size: 16px;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  color: var(--color-text);
-  transition: color 0.6s ease-out;
-
-  position: fixed;
-  right: 0;
-  bottom: 0;
-  z-index: 999;
-
-  @media (orientation: portrait) and (max-width: 833px) {
-    writing-mode: vertical-lr;
-
-    right: 20px;
-    bottom: 10px;
-  }
-
-  @media (max-width: 550px) {
-    font-size: 14px;
-  }
-
-  @media (max-width: 375px) {
-    font-size: 12px;
   }
 `;
 
@@ -286,7 +285,7 @@ const FixedTools = ({ theme, setTheme }) => {
           <Popover id="themes-submenu-narrow" role="menu" aria-label="themes">
             {themes.map((theme, idx) => {
               return (
-                <PopoverChild key={theme.themeName} itemKey={idx} role="none">
+                <PopoverChild key={theme.themeID} itemKey={idx} role="none">
                   <button
                     id={`themes-submenu-narrow-${idx}`}
                     role="menuitem"
@@ -455,11 +454,7 @@ const FixedTools = ({ theme, setTheme }) => {
               <Popover id="themes-submenu-wide" role="menu" aria-label="themes">
                 {themes.map((theme, idx) => {
                   return (
-                    <PopoverChild
-                      key={theme.themeName}
-                      itemKey={idx}
-                      role="none"
-                    >
+                    <PopoverChild key={theme.themeID} itemKey={idx} role="none">
                       <button
                         id={`themes-submenu-wide-${idx}`}
                         role="menuitem"
