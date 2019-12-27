@@ -119,7 +119,7 @@ const WorkMain = ({ title, isPortrait, is404 }) => {
         {isPortrait ? (
           <>
             <Img
-              fluid={bottomImgLs[2].node.childImageSharp.fluid}
+              fluid={bottomImgLs[1].node.childImageSharp.fluid}
               alt="Bottom photo of Vance Tan"
               loading="eager"
             />

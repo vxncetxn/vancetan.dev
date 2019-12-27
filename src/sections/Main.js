@@ -233,7 +233,7 @@ const Main = memo(({ isPortrait }) => {
         ) : (
           <>
             <Img
-              fluid={headImgLs[1].node.childImageSharp.fluid}
+              fluid={headImgLs[2].node.childImageSharp.fluid}
               alt="Head photo of Vance Tan"
             />
             <TopOverlayWide className="overlay" />
