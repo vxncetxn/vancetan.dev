@@ -1,4 +1,13 @@
 module.exports = {
+  siteMetadata: {
+    title: "Vance Tan - Creative Software Engineer",
+    description: `Creative Software Engineer Based in Singapore`,
+    image: "./src/assets/meta/meta-image.png",
+    imageTwitter: "./src/assets/meta/meta-image-twitter.png",
+    sitename: "vancetan.dev",
+    url: "https://www.vancetan.dev",
+    twitterID: "@vxncetxn"
+  },
   plugins: [
     `gatsby-plugin-preact`,
     `gatsby-plugin-react-helmet`,

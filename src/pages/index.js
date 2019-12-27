@@ -7,6 +7,7 @@ import { graphql, useStaticQuery } from "gatsby";
 import SectionContext from "../SectionContext";
 import Defaults from "../Defaults";
 import FixedTools from "../sections/FixedTools";
+import SEO from "../components/SEO";
 import Main from "../sections/Main";
 import BottomBase from "../sections/BottomBase";
 import Projects from "../sections/Projects";
@@ -14,9 +15,84 @@ import Writings from "../sections/Writings";
 import Contact from "../sections/Contact";
 import ProjectTemplate from "../sections/ProjectTemplate";
 import WritingTemplate from "../sections/WritingTemplate";
+import NotFound from "../sections/NotFound";
 import formatIndexNum from "../Helpers/formatIndexNum";
 
 const StyledIndex = styled(Div100vh)``;
+
+const randomWithinRange = (minBound, maxBound) => {
+  return Math.random() * (maxBound - minBound);
+};
+
+const randomizeUnderlinePath = linkWidth => {
+  const yMin = 5;
+  const yMax = 12;
+
+  const qXMin = 5 + 0.3 * linkWidth;
+  const qXMax = linkWidth - 0.3 * linkWidth;
+
+  const qYMin = 15;
+  const qYMax = 25;
+
+  const pathD = `M5 ${randomWithinRange(yMin, yMax)} Q ${randomWithinRange(
+    qXMin,
+    qXMax
+  )} ${randomWithinRange(qYMin, qYMax)} ${linkWidth} ${randomWithinRange(
+    yMin,
+    yMax
+  )}`;
+  return pathD;
+};
+
+const createLinkUnderline = (linkWidth, linkHeight) => {
+  const underline = document.createElementNS(
+    "http://www.w3.org/2000/svg",
+    "svg"
+  );
+  underline.setAttribute("width", linkWidth);
+  underline.setAttribute("height", "20");
+  underline.style.top = `${linkHeight - linkHeight * 0.25}px`;
+  underline.setAttribute("class", "link-underline-svg");
+
+  const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+  var pathD = randomizeUnderlinePath(linkWidth);
+
+  path.setAttribute("class", "link-underline-path");
+  path.setAttribute("d", pathD);
+
+  underline.appendChild(path);
+
+  return underline;
+};
+
+const createLinkCircle = (linkWidth, linkHeight) => {
+  const circle = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  circle.setAttribute("width", linkWidth + 25);
+  circle.setAttribute("height", linkHeight + 20);
+  circle.setAttribute("viewBox", "0 0 312.98 123.79");
+  circle.setAttribute("preserveAspectRatio", "none");
+  circle.setAttribute("class", "link-circle-svg");
+
+  const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+
+  var pathD = `
+      m311.69 42.32
+      a530.14 530.14 0 0 0 -165.94-18.2
+      c-6.34.32-138 7.57-140.69 35.75-2.18 22.6 79.05 53.46 152.43 58.13 43.71 2.81
+      129-.81 136.81-33.15 7.7-31.85-64.3-74.32-75.02-80.5
+  `;
+
+  path.setAttribute("class", "link-circle-path");
+  path.setAttribute("d", pathD);
+
+  const pathLength = path.getTotalLength();
+  path.setAttribute("stroke-dasharray", pathLength);
+  path.setAttribute("stroke-dashoffset", pathLength);
+
+  circle.appendChild(path);
+
+  return circle;
+};
 
 export default () => {
   const content = useStaticQuery(graphql`
@@ -30,6 +106,7 @@ export default () => {
               path
               index
               title
+              description
               tags
               image
               contributions
@@ -65,6 +142,7 @@ export default () => {
       path: item.node.frontmatter.path,
       index: item.node.frontmatter.index,
       title: item.node.frontmatter.title,
+      description: item.node.frontmatter.description,
       image: item.node.frontmatter.image,
       contributions: item.node.frontmatter.contributions,
       tech: item.node.frontmatter.tech,
@@ -147,83 +225,6 @@ export default () => {
     };
   }, [section]);
 
-  const randomWithinRange = (minBound, maxBound) => {
-    return Math.random() * (maxBound - minBound);
-  };
-
-  const randomizeUnderlinePath = linkWidth => {
-    const yMin = 5;
-    const yMax = 12;
-
-    const qXMin = 5 + 0.3 * linkWidth;
-    const qXMax = linkWidth - 0.3 * linkWidth;
-
-    const qYMin = 15;
-    const qYMax = 25;
-
-    const pathD = `M5 ${randomWithinRange(yMin, yMax)} Q ${randomWithinRange(
-      qXMin,
-      qXMax
-    )} ${randomWithinRange(qYMin, qYMax)} ${linkWidth} ${randomWithinRange(
-      yMin,
-      yMax
-    )}`;
-    return pathD;
-  };
-
-  const createLinkUnderline = (linkWidth, linkHeight) => {
-    const underline = document.createElementNS(
-      "http://www.w3.org/2000/svg",
-      "svg"
-    );
-    underline.setAttribute("width", linkWidth);
-    underline.setAttribute("height", "20");
-    underline.style.top = `${linkHeight - linkHeight * 0.25}px`;
-    underline.setAttribute("class", "link-underline-svg");
-
-    const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-    var pathD = randomizeUnderlinePath(linkWidth);
-
-    path.setAttribute("class", "link-underline-path");
-    path.setAttribute("d", pathD);
-
-    underline.appendChild(path);
-
-    return underline;
-  };
-
-  const createLinkCircle = (linkWidth, linkHeight) => {
-    const circle = document.createElementNS(
-      "http://www.w3.org/2000/svg",
-      "svg"
-    );
-    circle.setAttribute("width", linkWidth + 25);
-    circle.setAttribute("height", linkHeight + 20);
-    circle.setAttribute("viewBox", "0 0 312.98 123.79");
-    circle.setAttribute("preserveAspectRatio", "none");
-    circle.setAttribute("class", "link-circle-svg");
-
-    const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-
-    var pathD = `
-        m311.69 42.32
-        a530.14 530.14 0 0 0 -165.94-18.2
-        c-6.34.32-138 7.57-140.69 35.75-2.18 22.6 79.05 53.46 152.43 58.13 43.71 2.81
-        129-.81 136.81-33.15 7.7-31.85-64.3-74.32-75.02-80.5
-    `;
-
-    path.setAttribute("class", "link-circle-path");
-    path.setAttribute("d", pathD);
-
-    const pathLength = path.getTotalLength();
-    path.setAttribute("stroke-dasharray", pathLength);
-    path.setAttribute("stroke-dashoffset", pathLength);
-
-    circle.appendChild(path);
-
-    return circle;
-  };
-
   useEffect(() => {
     for (const link of document.querySelectorAll(".link")) {
       const linkWidth = parseInt(link.offsetWidth);
@@ -299,14 +300,24 @@ export default () => {
     };
   }, [isPortrait, section]);
 
-  const renderBottom = section => {
+  const renderSectionalContent = () => {
     if (section === "main") {
-      return <BottomBase title={""} isPortrait={isPortrait} />;
+      return (
+        <>
+          <BottomBase title={""} isPortrait={isPortrait} />
+          <SEO />
+        </>
+      );
     } else if (section === "projects") {
       return (
         <>
           <BottomBase title={"Projects"} isPortrait={isPortrait} />
           <Projects projectsIndex={projectsIndex} />
+          <SEO
+            contentTitle="Projects"
+            contentDescription="A List of Projects I Have Completed"
+            contentPath="projects"
+          />
         </>
       );
     } else if (section === "writings") {
@@ -314,6 +325,11 @@ export default () => {
         <>
           <BottomBase title={"Writings"} isPortrait={isPortrait} />
           <Writings />
+          <SEO
+            contentTitle="Writings"
+            contentDescription="A List of Articles I Have Written"
+            contentPath="writings"
+          />
         </>
       );
     } else if (section === "contact") {
@@ -321,6 +337,11 @@ export default () => {
         <>
           <BottomBase title={"Contact"} isPortrait={isPortrait} />
           <Contact />
+          <SEO
+            contentTitle="Contact"
+            contentDescription="Reach Out To Me Here!"
+            contentPath="contact"
+          />
         </>
       );
     } else if (section.match(/projects\/[a-zA-Z0-9-]+$/g)) {
@@ -328,21 +349,39 @@ export default () => {
         project => project.path === section.slice(9)
       );
 
-      if (project) {
-        return (
-          <>
-            <BottomBase
-              title={`Project-${formatIndexNum(project.index)}`}
-              isPortrait={isPortrait}
-            />
-            <ProjectTemplate project={project} />
-          </>
-        );
-      } else {
-        return null;
-      }
+      return (
+        <>
+          <BottomBase
+            title={`Project-${formatIndexNum(project.index)}`}
+            isPortrait={isPortrait}
+          />
+          <ProjectTemplate project={project} />
+          <SEO
+            contentTitle={`Project: ${project.title}`}
+            contentDescription={project.description}
+            contentPath={`projects/${project.path}`}
+            isArticle
+          />
+        </>
+      );
     } else if (section.match(/writings\/[a-zA-Z0-9-]+$/g)) {
-      return <WritingTemplate />;
+      return (
+        <>
+          <WritingTemplate />
+          <SEO />
+        </>
+      );
+    } else {
+      return (
+        <>
+          <BottomBase title={""} isPortrait={isPortrait} is404 />
+          <NotFound />
+          <SEO
+            contentTitle="404"
+            contentDescription="The Page You Have Requested Could Not Be Found"
+          />
+        </>
+      );
     }
   };
 
@@ -358,7 +397,7 @@ export default () => {
         <FixedTools theme={theme} setTheme={setTheme} />
         <StyledIndex id="index">
           <Main isPortrait={isPortrait} />
-          {renderBottom(section)}
+          {renderSectionalContent()}
         </StyledIndex>
       </SectionContext.Provider>
     </>

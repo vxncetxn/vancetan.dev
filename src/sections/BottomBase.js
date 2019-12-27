@@ -5,6 +5,7 @@ import Img from "gatsby-image";
 
 import BottomOverlayWide from "../assets/graphics/overlays/head-bottom-silhouette.svg";
 import BottomOverlayNarrow from "../assets/graphics/overlays/head-bottom-narrow-silhouette.svg";
+import Mouth from "../assets/graphics/mouth.svg";
 
 const BottomImgContainer = styled.div`
   width: 25vw;
@@ -38,12 +39,12 @@ const BottomImgContainer = styled.div`
 
   @media (max-width: 550px) {
     // width: 60vw;
-    width: 260px;
+    width: 230px;
   }
 
   @media (max-width: 375px) {
     // width: 65vw;
-    width: 240px;
+    width: 200px;
   }
 `;
 
@@ -60,7 +61,41 @@ const BottomTitle = styled.h1`
   transition: color 0.6s ease-out;
 `;
 
-const WorkMain = ({ title, isPortrait }) => {
+const StyledMouth = styled(Mouth)`
+  width: 13vw;
+  height: 6.5vw;
+  position: absolute;
+  left: 25%;
+  bottom: 12%;
+
+  @media (max-width: 1220px) {
+    width: 190px;
+    height: 100px;
+    left: 25.5%;
+    bottom: 12%;
+  }
+
+  @media (orientation: portrait) and (max-width: 833px) {
+    width: 170px;
+    height: 90px;
+    left: 22%;
+    bottom: 18%;
+  }
+
+  @media (max-width: 550px) {
+    width: 130px;
+    height: 75px;
+  }
+
+  @media (max-width: 375px) {
+    width: 110px;
+    height: 60px;
+    left: 23%;
+    bottom: 20%;
+  }
+`;
+
+const WorkMain = ({ title, isPortrait, is404 }) => {
   const bottomImgLs = useStaticQuery(graphql`
     query {
       allFile {
@@ -100,6 +135,7 @@ const WorkMain = ({ title, isPortrait }) => {
             <BottomOverlayWide className="overlay" />
           </>
         )}
+        {is404 ? <StyledMouth /> : null}
       </BottomImgContainer>
       <BottomTitle isPortrait={isPortrait}>{title}</BottomTitle>
     </>

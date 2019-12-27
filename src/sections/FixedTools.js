@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect, useContext, memo } from "react";
 import styled from "styled-components";
 
 import InternalLink from "../InternalLink";
@@ -171,7 +171,7 @@ const Others = styled.ul`
   }
 `;
 
-const FixedTools = ({ theme, setTheme }) => {
+const FixedTools = memo(({ theme, setTheme }) => {
   const sectionContext = useContext(SectionContext);
 
   useEffect(() => {
@@ -590,6 +590,6 @@ const FixedTools = ({ theme, setTheme }) => {
       </Menubar>
     </StyledNav>
   );
-};
+});
 
 export default FixedTools;

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, memo } from "react";
 import styled, { keyframes } from "styled-components";
 import { graphql, useStaticQuery } from "gatsby";
 import { window } from "browser-monads";
@@ -140,7 +140,7 @@ const StarLeft = styled(Star)`
   width: 5vw;
   position: absolute;
   left: 20%;
-  bottom: 5%;
+  bottom: 6%;
   animation: ${Pulsate} 0.4s linear infinite;
 
   & > path {
@@ -152,6 +152,8 @@ const StarLeft = styled(Star)`
   }
 
   @media (max-width: 550px) {
+    left: 18%;
+    bottom: 6%;
     width: 55px;
   }
 
@@ -164,7 +166,7 @@ const StarRight = styled(Star)`
   width: 5vw;
   position: absolute;
   left: 60%;
-  bottom: 5%;
+  bottom: 6%;
   animation: ${Pulsate} 0.4s linear infinite;
 
   & > path {
@@ -176,6 +178,7 @@ const StarRight = styled(Star)`
   }
 
   @media (max-width: 550px) {
+    bottom: 6%;
     width: 55px;
   }
 
@@ -184,7 +187,7 @@ const StarRight = styled(Star)`
   }
 `;
 
-const Main = ({ isPortrait }) => {
+const Main = memo(({ isPortrait }) => {
   const headImgLs = useStaticQuery(graphql`
     query {
       allFile {
@@ -241,6 +244,6 @@ const Main = ({ isPortrait }) => {
       </HeadImgContainer>
     </StyledMain>
   );
-};
+});
 
 export default Main;
