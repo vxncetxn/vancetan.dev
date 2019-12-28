@@ -78,9 +78,6 @@ const Defaults = createGlobalStyle`
     [theme="theme-two"] {
       // Beige/Playful Blue
 
-      --font-primary: "Roboto Mono";
-      --font-secondary: "Oswald";
-
       --color-layer-top: #4645d1;
       --color-layer-middle: #846DC4;
       --color-layer-bottom: #C194B7;
@@ -95,9 +92,6 @@ const Defaults = createGlobalStyle`
 
     [theme="theme-three"] {
       // Dark Purple-Deep Pink
-
-      --font-primary: "Roboto Mono";
-      --font-secondary: "Oswald";
 
       --color-layer-top: #bf4082;
       --color-layer-middle: #8D2F6C;
@@ -114,9 +108,6 @@ const Defaults = createGlobalStyle`
     [theme="theme-four"] {
       // Black-Hacker Green
 
-      --font-primary: "Roboto Mono";
-      --font-secondary: "Oswald";
-
       --color-layer-top: #20C20E;
       --color-layer-middle: #158109;
       --color-layer-bottom: #0B4105;
@@ -132,9 +123,6 @@ const Defaults = createGlobalStyle`
     [theme="theme-five"] {
       // Bright Purple-Deep Yellow
 
-      --font-primary: "Roboto Mono";
-      --font-secondary: "Oswald";
-
       --color-layer-top: #ffba37;
       --color-layer-middle: #C67C67;
       --color-layer-bottom: #8C3E96;
@@ -148,9 +136,6 @@ const Defaults = createGlobalStyle`
     }
 
     // [theme="mojave-sunset"] {
-    //   --font-primary: "Roboto Mono";
-    //   --font-secondary: "Oswald";
-
     //   --color-layer-top: #621055;
     //   --color-layer-middle: #b52b65;
     //   --color-layer-bottom: #d85a5a;
@@ -163,9 +148,6 @@ const Defaults = createGlobalStyle`
     // }
 
     // [theme="theme-three"] {
-    //   --font-primary: "Roboto Mono";
-    //   --font-secondary: "Oswald";
-      
     //   --color-layer-top: #C54F61;
     //   --color-layer-middle: #88304e;
     //   --color-layer-bottom: #522546;
@@ -178,9 +160,6 @@ const Defaults = createGlobalStyle`
     // }
 
     // [theme="muir-sunny"] {
-    //   --font-primary: "Roboto Mono";
-    //   --font-secondary: "Oswald";
-      
     //   --color-layer-top: #6aaf78;
     //   --color-layer-middle: #d2df9f;
     //   --color-layer-bottom: #A55B53;
@@ -193,9 +172,6 @@ const Defaults = createGlobalStyle`
     // }
 
     // [theme="tomita-summer"] {
-    //   --font-primary: "Roboto Mono";
-    //   --font-secondary: "Oswald";
-
     //   --color-layer-top: #fff3b1;
     //   --color-layer-middle: #fdcb6e;
     //   --color-layer-bottom: #7b7bb7;

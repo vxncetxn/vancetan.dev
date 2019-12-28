@@ -12,7 +12,7 @@ const SEO = ({ contentTitle, contentDescription, contentPath, isArticle }) => {
           image
           imageTwitter
           sitename
-          url
+          siteUrl
           twitterID
         }
       }
@@ -21,7 +21,7 @@ const SEO = ({ contentTitle, contentDescription, contentPath, isArticle }) => {
 
   const title = contentTitle ? `${contentTitle} | ${meta.title}` : meta.title;
   const description = contentDescription || meta.description;
-  const url = contentPath ? `${meta.url}/${contentPath}` : meta.url;
+  const url = contentPath ? `${meta.url}/${contentPath}` : meta.siteUrl;
   const type = isArticle ? "article" : "website";
 
   return (
@@ -41,25 +41,6 @@ const SEO = ({ contentTitle, contentDescription, contentPath, isArticle }) => {
       <meta property="og:site_name" content={meta.sitename} />
       <meta property="og:url" content={url} />
       <meta property="og:type" content={type} />
-
-      <link
-        rel="apple-touch-icon"
-        sizes="180x180"
-        href="/apple-touch-icon.png"
-      />
-      <link
-        rel="icon"
-        type="image/png"
-        sizes="32x32"
-        href="/favicon-32x32.png"
-      />
-      <link
-        rel="icon"
-        type="image/png"
-        sizes="16x16"
-        href="/favicon-16x16.png"
-      />
-      <link rel="manifest" href="/site.webmanifest" />
     </Helmet>
   );
 };

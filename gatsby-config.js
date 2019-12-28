@@ -5,16 +5,59 @@ module.exports = {
     image: "./src/assets/meta/meta-image.png",
     imageTwitter: "./src/assets/meta/meta-image-twitter.png",
     sitename: "vancetan.dev",
-    url: "https://www.vancetan.dev",
+    siteUrl: "https://www.vancetan.dev",
     twitterID: "@vxncetxn"
   },
   plugins: [
+    `gatsby-plugin-netlify`,
     `gatsby-plugin-preact`,
     `gatsby-plugin-react-helmet`,
     `gatsby-plugin-styled-components`,
     `gatsby-image`,
     `gatsby-transformer-sharp`,
     `gatsby-plugin-sharp`,
+    {
+      resolve: `gatsby-plugin-sitemap`,
+      options: {
+        query: `
+          {
+            site {
+              siteMetadata {
+                siteUrl
+              }
+            }
+
+            allSitePage {
+              edges {
+                node {
+                  path
+                }
+              }
+            }
+
+            allMdx {
+              edges {
+                node {
+                  frontmatter {
+                    path
+                  }
+                }
+              }
+            }
+        }`,
+        serialize: ({ site, allMdx }) =>
+          ["projects", "contact"]
+            .concat(allMdx.edges.map(edge => edge.node.frontmatter.path))
+            .map(path => {
+              return {
+                url: `${site.siteMetadata.siteUrl}/${path}`,
+                changefreq: `daily`,
+                priority: 0.7
+              };
+            })
+      }
+    },
+    `gatsby-plugin-robots-txt`,
     {
       resolve: `gatsby-plugin-mdx`,
       options: {
@@ -34,13 +77,6 @@ module.exports = {
     {
       resolve: `gatsby-plugin-create-client-paths`,
       options: { prefixes: [`/*`] }
-    },
-    {
-      resolve: `gatsby-plugin-google-fonts`,
-      options: {
-        fonts: [`oswald\:400,600`, `roboto mono\:400,500,600`],
-        display: "swap"
-      }
     },
     {
       resolve: `gatsby-source-filesystem`,

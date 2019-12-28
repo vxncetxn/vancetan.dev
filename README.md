@@ -1,3 +1,3 @@
-# Gatsby Starter
+# vancetan.dev
 
-Bare-bones Gatsby starter.
+Portfolio site.

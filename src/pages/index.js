@@ -7,6 +7,7 @@ import { graphql, useStaticQuery } from "gatsby";
 import SectionContext from "../SectionContext";
 import Defaults from "../Defaults";
 import FixedTools from "../sections/FixedTools";
+import Favicon from "../components/Favicon";
 import SEO from "../components/SEO";
 import Main from "../sections/Main";
 import BottomBase from "../sections/BottomBase";
@@ -320,7 +321,7 @@ export default () => {
           />
         </>
       );
-    } else if (section === "writings") {
+    } /* else if (section === "writings") {
       return (
         <>
           <BottomBase title={"Writings"} isPortrait={isPortrait} />
@@ -332,7 +333,9 @@ export default () => {
           />
         </>
       );
-    } else if (section === "contact") {
+    } */ else if (
+      section === "contact"
+    ) {
       return (
         <>
           <BottomBase title={"Contact"} isPortrait={isPortrait} />
@@ -349,29 +352,42 @@ export default () => {
         project => project.path === section.slice(9)
       );
 
-      return (
-        <>
-          <BottomBase
-            title={`Project-${formatIndexNum(project.index)}`}
-            isPortrait={isPortrait}
-          />
-          <ProjectTemplate project={project} />
-          <SEO
-            contentTitle={`Project: ${project.title}`}
-            contentDescription={project.description}
-            contentPath={`projects/${project.path}`}
-            isArticle
-          />
-        </>
-      );
-    } else if (section.match(/writings\/[a-zA-Z0-9-]+$/g)) {
+      if (project) {
+        return (
+          <>
+            <BottomBase
+              title={`Project-${formatIndexNum(project.index)}`}
+              isPortrait={isPortrait}
+            />
+            <ProjectTemplate project={project} />
+            <SEO
+              contentTitle={`Project: ${project.title}`}
+              contentDescription={project.description}
+              contentPath={`projects/${project.path}`}
+              isArticle
+            />
+          </>
+        );
+      } else {
+        return (
+          <>
+            <BottomBase title={""} isPortrait={isPortrait} is404 />
+            <NotFound />
+            <SEO
+              contentTitle="404"
+              contentDescription="The Page You Have Requested Could Not Be Found"
+            />
+          </>
+        );
+      }
+    } /* else if (section.match(/writings\/[a-zA-Z0-9-]+$/g)) {
       return (
         <>
           <WritingTemplate />
           <SEO />
         </>
       );
-    } else {
+    } */ else {
       return (
         <>
           <BottomBase title={""} isPortrait={isPortrait} is404 />
@@ -393,6 +409,7 @@ export default () => {
           setSection
         }}
       >
+        <Favicon theme={theme} />
         <Defaults />
         <FixedTools theme={theme} setTheme={setTheme} />
         <StyledIndex id="index">

@@ -22,10 +22,13 @@
     "gatsby-plugin-create-client-paths": "^2.1.18",
     "gatsby-plugin-google-fonts": "^1.0.1",
     "gatsby-plugin-mdx": "^1.0.57",
+    "gatsby-plugin-netlify": "^2.1.30",
     "gatsby-plugin-preact": "^3.1.21",
     "gatsby-plugin-react-helmet": "^3.1.15",
     "gatsby-plugin-react-svg": "^2.1.2",
+    "gatsby-plugin-robots-txt": "^1.5.0",
     "gatsby-plugin-sharp": "^2.3.2",
+    "gatsby-plugin-sitemap": "^2.2.24",
     "gatsby-plugin-styled-components": "^3.1.13",
     "gatsby-remark-images": "^3.1.39",
     "gatsby-source-filesystem": "^2.1.38",
@@ -35,7 +38,9 @@
     "react-div-100vh": "^0.3.4",
     "react-dom": "^16.12.0",
     "react-helmet": "^6.0.0-beta",
-    "styled-components": "5.0.0-rc.2"
+    "styled-components": "5.0.0-rc.2",
+    "typeface-oswald": "0.0.75",
+    "typeface-roboto-mono": "0.0.75"
   },
   "devDependencies": {
     "cross-env": "^6.0.3",
