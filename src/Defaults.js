@@ -197,6 +197,7 @@ const Defaults = createGlobalStyle`
       position: relative;
       background-color: var(--color-background);
       transition: background-color 0.6s ease-out;
+      // isolation: isolate;
 
       overflow: hidden;
     }

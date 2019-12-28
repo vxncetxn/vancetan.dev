@@ -1,6 +1,6 @@
 module.exports = {
   siteMetadata: {
-    title: "Vance Tan - Creative Software Engineer",
+    title: "Vance Tan –– Creative Software Engineer",
     description: `Creative Software Engineer Based in Singapore`,
     image: "./src/assets/meta/meta-image.png",
     imageTwitter: "./src/assets/meta/meta-image-twitter.png",
@@ -50,7 +50,7 @@ module.exports = {
             .concat(allMdx.edges.map(edge => edge.node.frontmatter.path))
             .map(path => {
               return {
-                url: `${site.siteMetadata.siteUrl}/${path}`,
+                url: `${site.siteMetadata.siteUrl}/${path}/`,
                 changefreq: `daily`,
                 priority: 0.7
               };

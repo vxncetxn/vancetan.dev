@@ -24,7 +24,7 @@ const TransitObject = ({ children, to, className, disabled }) => {
     if (!disabled && section !== to) {
       if (section === "main") {
         setSection(to);
-        window.history.pushState("", "", `/${to}`);
+        window.history.pushState("", "", `/${to}/`);
         document.getElementById(
           "index"
         ).style.transform = `translate3d(0,-${window.innerHeight}px,0)`;
@@ -42,7 +42,7 @@ const TransitObject = ({ children, to, className, disabled }) => {
           setSection("main");
         }, 800);
       } else {
-        window.history.pushState("", "", `/${to}`);
+        window.history.pushState("", "", `/${to}/`);
         setSection(to);
         window.scrollTo(0, 0);
       }

@@ -144,7 +144,7 @@ const StarLeft = styled(Star)`
   animation: ${Pulsate} 0.4s linear infinite;
 
   & > path {
-    fill: var(--color-layer-top);
+    fill: var(--color-layer-middle);
   }
 
   @media (max-width: 1220px) {
@@ -170,7 +170,7 @@ const StarRight = styled(Star)`
   animation: ${Pulsate} 0.4s linear infinite;
 
   & > path {
-    fill: var(--color-layer-top);
+    fill: var(--color-layer-middle);
   }
 
   @media (max-width: 1220px) {

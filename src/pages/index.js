@@ -21,6 +21,10 @@ import formatIndexNum from "../Helpers/formatIndexNum";
 
 const StyledIndex = styled(Div100vh)``;
 
+const removeTrailingSlash = str => {
+  return str.endsWith("/") ? str.slice(0, str.length - 1) : str;
+};
+
 const randomWithinRange = (minBound, maxBound) => {
   return Math.random() * (maxBound - minBound);
 };
@@ -159,8 +163,8 @@ export default () => {
   });
 
   const [section, setSection] = useState(
-    window.location.pathname.slice(1)
-      ? window.location.pathname.slice(1)
+    removeTrailingSlash(window.location.pathname.slice(1))
+      ? removeTrailingSlash(window.location.pathname.slice(1))
       : "main"
   );
   const [theme, setTheme] = useState("theme-one");
@@ -203,9 +207,10 @@ export default () => {
 
   useEffect(() => {
     window.onpopstate = function() {
-      if (window.location.pathname.slice(1)) {
+      const pathname = removeTrailingSlash(window.location.pathname.slice(1));
+      if (pathname) {
         if (section === "main") {
-          setSection(window.location.pathname.slice(1));
+          setSection(pathname);
           document.getElementById(
             "index"
           ).style.transform = `translate3d(0,-${window.innerHeight}px,0)`;
@@ -213,7 +218,7 @@ export default () => {
             document.getElementById("main").style.visibility = "hidden";
           }, 600);
         } else {
-          setSection(window.location.pathname.slice(1));
+          setSection(pathname);
           window.scrollTo(0, 0);
         }
       } else {

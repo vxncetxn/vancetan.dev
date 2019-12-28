@@ -21,7 +21,7 @@ const SEO = ({ contentTitle, contentDescription, contentPath, isArticle }) => {
 
   const title = contentTitle ? `${contentTitle} | ${meta.title}` : meta.title;
   const description = contentDescription || meta.description;
-  const url = contentPath ? `${meta.url}/${contentPath}` : meta.siteUrl;
+  const url = contentPath ? `${meta.siteUrl}/${contentPath}/` : meta.siteUrl;
   const type = isArticle ? "article" : "website";
 
   return (
