@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
-import styled from "styled-components";
 import { window } from "browser-monads";
-import Div100vh from "react-div-100vh";
 import { graphql, useStaticQuery } from "gatsby";
 
 import SectionContext from "../SectionContext";
@@ -10,6 +8,7 @@ import FixedTools from "../sections/FixedTools";
 import Favicon from "../components/Favicon";
 import SEO from "../components/SEO";
 import Main from "../sections/Main";
+import Bottom from "../sections/Bottom";
 import BottomBase from "../sections/BottomBase";
 import Projects from "../sections/Projects";
 import Writings from "../sections/Writings";
@@ -18,8 +17,6 @@ import ProjectTemplate from "../sections/ProjectTemplate";
 import WritingTemplate from "../sections/WritingTemplate";
 import NotFound from "../sections/NotFound";
 import formatIndexNum from "../Helpers/formatIndexNum";
-
-const StyledIndex = styled(Div100vh)``;
 
 const removeTrailingSlash = str => {
   return str.endsWith("/") ? str.slice(0, str.length - 1) : str;
@@ -167,6 +164,7 @@ export default () => {
       ? removeTrailingSlash(window.location.pathname.slice(1))
       : "main"
   );
+
   const [theme, setTheme] = useState("theme-one");
   const [isPortrait, setIsPortrait] = useState(
     window.matchMedia("(orientation: portrait)").matches
@@ -192,11 +190,19 @@ export default () => {
       document.querySelector("body").style.overflow = "auto";
       document.getElementById("main").style.visibility = "hidden";
       document.getElementById(
-        "index"
-      ).style.transform = `translate3d(0,-${window.innerHeight}px,0)`;
+        "main"
+      ).style.transform = `translate3d(0,calc(var(--vh) * -100),0)`;
+      document.getElementById("bottom").style.transform = `translate3d(0,0,0)`;
+      document.getElementById("bottom").style.visibility = "visible";
+    } else {
+      document.getElementById("main").style.visibility = "visible";
+      document.getElementById("bottom").style.visibility = "visible";
     }
+
     setTimeout(() => {
-      document.getElementById("index").style.transition =
+      document.getElementById("main").style.transition =
+        "transform 0.5s linear";
+      document.getElementById("bottom").style.transition =
         "transform 0.5s linear";
     }, 100);
   }, []);
@@ -211,22 +217,36 @@ export default () => {
       if (pathname) {
         if (section === "main") {
           setSection(pathname);
-          document.getElementById(
-            "index"
-          ).style.transform = `translate3d(0,-${window.innerHeight}px,0)`;
+
+          requestAnimationFrame(() => {
+            document.getElementById(
+              "main"
+            ).style.transform = `translate3d(0,calc(var(--vh) * -100),0)`;
+            document.getElementById(
+              "bottom"
+            ).style.transform = `translate3d(0,0,0)`;
+            document.querySelector("body").style.overflow = "auto";
+          });
+
           setTimeout(() => {
             document.getElementById("main").style.visibility = "hidden";
-          }, 600);
+          }, 800);
         } else {
           setSection(pathname);
           window.scrollTo(0, 0);
         }
       } else {
+        document.querySelector("body").style.overflow = "hidden";
         document.getElementById("main").style.visibility = "visible";
-        document.getElementById("index").style.transform = "translate3d(0,0,0)";
+
+        document.getElementById("main").style.transform = `translate3d(0,0,0)`;
+        document.getElementById(
+          "bottom"
+        ).style.transform = `translate3d(0,calc(var(--vh) * 100),0)`;
+
         setTimeout(() => {
           setSection("main");
-        }, 500);
+        }, 800);
       }
     };
   }, [section]);
@@ -268,6 +288,9 @@ export default () => {
     }
     scheduledAnimationFrameForResize = true;
     requestAnimationFrame(() => {
+      let vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty("--vh", `${vh}px`);
+
       setScreenWidth(
         window.matchMedia("(max-width: 375px)").matches
           ? "mobile-very-narrow"
@@ -310,7 +333,6 @@ export default () => {
     if (section === "main") {
       return (
         <>
-          <BottomBase title={""} isPortrait={isPortrait} />
           <SEO />
         </>
       );
@@ -417,10 +439,8 @@ export default () => {
         <Favicon theme={theme} />
         <Defaults />
         <FixedTools theme={theme} setTheme={setTheme} />
-        <StyledIndex id="index">
-          <Main isPortrait={isPortrait} />
-          {renderSectionalContent()}
-        </StyledIndex>
+        <Main isPortrait={isPortrait} />
+        <Bottom>{renderSectionalContent()}</Bottom>
       </SectionContext.Provider>
     </>
   );

@@ -1,7 +1,6 @@
-import React, { useEffect, memo } from "react";
+import React, { memo } from "react";
 import styled, { keyframes } from "styled-components";
 import { graphql, useStaticQuery } from "gatsby";
-import { window } from "browser-monads";
 import Img from "gatsby-image";
 
 import Brainwave from "../assets/graphics/brainwave-vA.svg";
@@ -10,11 +9,16 @@ import TopOverlayWide from "../assets/graphics/overlays/head-top-silhouette.svg"
 import TopOverlayNarrow from "../assets/graphics/overlays/head-top-narrow-silhouette.svg";
 
 const StyledMain = styled.div`
-  position: relative;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: calc(var(--vh) * 100);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+  visibility: hidden;
 `;
 
 const StyledBrainwave = styled(Brainwave)`
@@ -204,10 +208,6 @@ const Main = memo(({ isPortrait }) => {
       }
     }
   `).allFile.edges;
-
-  useEffect(() => {
-    document.querySelector("#main").style.height = `${window.innerHeight}px`;
-  }, [isPortrait]);
 
   return (
     <StyledMain id="main">

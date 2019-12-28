@@ -57,7 +57,7 @@ const BottomTitle = styled.h1`
   color: var(--color-layer-top);
   text-transform: uppercase;
   text-align: center;
-  margin-top: ${props => (props.isPortrait ? "-140px" : "-160px")};
+  margin-top: ${props => (props.isPortrait ? "-120px" : "-160px")};
   transition: color 0.6s ease-out;
 `;
 
