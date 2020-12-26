@@ -22,33 +22,29 @@ const TransitObject = ({ children, to, className, disabled }) => {
 
   const activateButton = () => {
     if (!disabled && section !== to) {
+      const cache = window.domCache;
+
       if (section === "main") {
         setSection(to);
         window.history.pushState("", "", `/${to}/`);
 
         requestAnimationFrame(() => {
-          document.getElementById(
-            "main"
-          ).style.transform = `translate3d(0,calc(var(--vh) * -100),0)`;
-          document.getElementById(
-            "bottom"
-          ).style.transform = `translate3d(0,0,0)`;
-          document.querySelector("body").style.overflow = "auto";
+          cache.main.style.transform = `translate3d(0,calc(var(--vh) * -100),0)`;
+          cache.bottom.style.transform = `translate3d(0,0,0)`;
+          cache.body.style.overflow = "auto";
         });
 
         setTimeout(() => {
-          document.getElementById("main").style.visibility = "hidden";
+          cache.main.style.visibility = "hidden";
         }, 800);
       } else if (to === "main") {
-        document.querySelector("body").style.overflow = "hidden";
-        document.getElementById("main").style.visibility = "visible";
+        cache.body.style.overflow = "hidden";
+        cache.main.style.visibility = "visible";
         window.history.pushState("", "", `/`);
         window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
 
-        document.getElementById("main").style.transform = `translate3d(0,0,0)`;
-        document.getElementById(
-          "bottom"
-        ).style.transform = `translate3d(0,calc(var(--vh) * 100),0)`;
+        cache.main.style.transform = `translate3d(0,0,0)`;
+        cache.bottom.style.transform = `translate3d(0,calc(var(--vh) * 100),0)`;
 
         setTimeout(() => {
           setSection("main");

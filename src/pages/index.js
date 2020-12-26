@@ -110,11 +110,17 @@ export default () => {
               title
               description
               tags
-              image
               contributions
               tech
               source
               demo
+              image {
+                childImageSharp {
+                  fluid {
+                    ...GatsbyImageSharpFluid_withWebp_tracedSVG
+                  }
+                }
+              }
             }
           }
         }
@@ -129,23 +135,23 @@ export default () => {
     .sort((a, b) => a.node.frontmatter.index - b.node.frontmatter.index);
 
   const projectsIndex = [];
-  const projectsArr = [];
+  const projects = [];
   // const writingsIndex = [];
   // const writingsArr = [];
 
-  projectsContent.map((item, idx) => {
+  projectsContent.forEach((item, idx) => {
     projectsIndex.push({
       path: item.node.frontmatter.path,
       title: item.node.frontmatter.title,
       tags: item.node.frontmatter.tags
     });
-    projectsArr.push({
+
+    projects[`${item.node.frontmatter.path}`] = {
       body: item.node.body,
-      path: item.node.frontmatter.path,
       index: item.node.frontmatter.index,
       title: item.node.frontmatter.title,
       description: item.node.frontmatter.description,
-      image: item.node.frontmatter.image,
+      image: item.node.frontmatter.image.childImageSharp.fluid,
       contributions: item.node.frontmatter.contributions,
       tech: item.node.frontmatter.tech,
       source: item.node.frontmatter.source,
@@ -156,7 +162,7 @@ export default () => {
         idx !== projectsContent.length - 1
           ? projectsContent[idx + 1].node.frontmatter.path
           : null
-    });
+    };
   });
 
   const [section, setSection] = useState(
@@ -182,28 +188,34 @@ export default () => {
   );
 
   useEffect(() => {
+    window.domCache = {
+      body: document.querySelector("body"),
+      main: document.getElementById("main"),
+      bottom: document.getElementById("bottom"),
+      brainwave: document.querySelector(".brainwave"),
+      mainTextBlock: document.querySelector(".main-text-block")
+    };
+
     if (localStorage.getItem("theme")) {
       setTheme(localStorage.getItem("theme"));
     }
 
+    const cache = window.domCache;
+
     if (window.location.pathname.slice(1)) {
-      document.querySelector("body").style.overflow = "auto";
-      document.getElementById("main").style.visibility = "hidden";
-      document.getElementById(
-        "main"
-      ).style.transform = `translate3d(0,calc(var(--vh) * -100),0)`;
-      document.getElementById("bottom").style.transform = `translate3d(0,0,0)`;
-      document.getElementById("bottom").style.visibility = "visible";
+      cache.body.style.overflow = "auto";
+      cache.main.style.visibility = "hidden";
+      cache.main.style.transform = `translate3d(0,calc(var(--vh) * -100),0)`;
+      cache.bottom.style.transform = `translate3d(0,0,0)`;
+      cache.bottom.style.visibility = "visible";
     } else {
-      document.getElementById("main").style.visibility = "visible";
-      document.getElementById("bottom").style.visibility = "visible";
+      cache.main.style.visibility = "visible";
+      cache.bottom.style.visibility = "visible";
     }
 
     setTimeout(() => {
-      document.getElementById("main").style.transition =
-        "transform 0.5s linear";
-      document.getElementById("bottom").style.transition =
-        "transform 0.5s linear";
+      cache.main.style.transition = "transform 0.5s linear";
+      cache.bottom.style.transition = "transform 0.5s linear";
     }, 100);
   }, []);
 
@@ -213,36 +225,31 @@ export default () => {
 
   useEffect(() => {
     window.onpopstate = function() {
+      const cache = window.domCache;
       const pathname = removeTrailingSlash(window.location.pathname.slice(1));
       if (pathname) {
         if (section === "main") {
           setSection(pathname);
 
           requestAnimationFrame(() => {
-            document.getElementById(
-              "main"
-            ).style.transform = `translate3d(0,calc(var(--vh) * -100),0)`;
-            document.getElementById(
-              "bottom"
-            ).style.transform = `translate3d(0,0,0)`;
-            document.querySelector("body").style.overflow = "auto";
+            cache.main.style.transform = `translate3d(0,calc(var(--vh) * -100),0)`;
+            cache.bottom.style.transform = `translate3d(0,0,0)`;
+            cache.body.style.overflow = "auto";
           });
 
           setTimeout(() => {
-            document.getElementById("main").style.visibility = "hidden";
+            cache.main.style.visibility = "hidden";
           }, 800);
         } else {
           setSection(pathname);
           window.scrollTo(0, 0);
         }
       } else {
-        document.querySelector("body").style.overflow = "hidden";
-        document.getElementById("main").style.visibility = "visible";
+        cache.body.style.overflow = "hidden";
+        cache.main.style.visibility = "visible";
 
-        document.getElementById("main").style.transform = `translate3d(0,0,0)`;
-        document.getElementById(
-          "bottom"
-        ).style.transform = `translate3d(0,calc(var(--vh) * 100),0)`;
+        cache.main.style.transform = `translate3d(0,0,0)`;
+        cache.bottom.style.transform = `translate3d(0,calc(var(--vh) * 100),0)`;
 
         setTimeout(() => {
           setSection("main");
@@ -272,11 +279,10 @@ export default () => {
 
   const resizeMainVisual = () => {
     if (section === "main") {
-      const brainwave = document.querySelector(".brainwave");
-      const mainTextBlockHeight = document.querySelector(".main-text-block")
-        .offsetHeight;
+      const mainTextBlockHeight = window.domCache.mainTextBlock.offsetHeight;
 
-      brainwave.style.height = `${(mainTextBlockHeight / 5) * 9}px`;
+      window.domCache.brainwave.style.height = `${(mainTextBlockHeight / 5) *
+        9}px`;
     }
   };
 
@@ -375,9 +381,7 @@ export default () => {
         </>
       );
     } else if (section.match(/projects\/[a-zA-Z0-9-]+$/g)) {
-      const project = projectsArr.find(
-        project => project.path === section.slice(9)
-      );
+      const project = projects[`${section.slice(9)}`];
 
       if (project) {
         return (
@@ -400,10 +404,13 @@ export default () => {
           <>
             <BottomBase title={""} isPortrait={isPortrait} is404 />
             <NotFound />
-            <SEO
+            {/* <SEO
               contentTitle="404"
               contentDescription="The Page You Have Requested Could Not Be Found"
-            />
+            /> */}
+            <>
+              <SEO />
+            </>
           </>
         );
       }
@@ -419,10 +426,13 @@ export default () => {
         <>
           <BottomBase title={""} isPortrait={isPortrait} is404 />
           <NotFound />
-          <SEO
+          {/* <SEO
             contentTitle="404"
             contentDescription="The Page You Have Requested Could Not Be Found"
-          />
+          /> */}
+          <>
+            <SEO />
+          </>
         </>
       );
     }

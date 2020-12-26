@@ -8,6 +8,7 @@ const Bottom = styled.div`
   width: 100%;
   transform: translate3d(0, calc(var(--vh) * 100), 0);
   visibility: hidden;
+  will-change: transform;
 `;
 
 const BottomComp = ({ children }) => {

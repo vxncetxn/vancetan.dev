@@ -5,7 +5,7 @@ module.exports = {
     image: "./src/assets/meta/meta-image.png",
     imageTwitter: "./src/assets/meta/meta-image-twitter.png",
     sitename: "vancetan.dev",
-    siteUrl: "https://www.vancetan.dev",
+    siteUrl: "https://vancetan.dev",
     twitterID: "@vxncetxn"
   },
   plugins: [

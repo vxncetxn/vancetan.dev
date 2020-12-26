@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import { MDXProvider } from "@mdx-js/react";
 import { MDXRenderer } from "gatsby-plugin-mdx";
-import { graphql, useStaticQuery } from "gatsby";
 import Img from "gatsby-image";
 
 import Highlight from "../components/Highlight";
@@ -183,23 +182,6 @@ const ProjectInfoItem = styled.div`
 // `;
 
 const ProjectTemplateComp = ({ project }) => {
-  const projectImage = useStaticQuery(graphql`
-    query {
-      allFile(filter: { sourceInstanceName: { eq: "project-images" } }) {
-        edges {
-          node {
-            name
-            childImageSharp {
-              fluid {
-                ...GatsbyImageSharpFluid_withWebp_tracedSVG
-              }
-            }
-          }
-        }
-      }
-    }
-  `).allFile.edges.find(edge => edge.node.name === project.path);
-
   return (
     <ProjectTemplate>
       <ProjectNav>
@@ -216,10 +198,7 @@ const ProjectTemplateComp = ({ project }) => {
           Next →
         </InternalLink>
       </ProjectNav>
-      <StyledImg
-        fluid={projectImage.node.childImageSharp.fluid}
-        alt="some pic"
-      />
+      <StyledImg fluid={project.image} alt="some pic" />
       <ProjectTitle>{project.title}</ProjectTitle>
       <ProjectContent>
         <ProjectDesc>

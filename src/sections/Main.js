@@ -19,6 +19,7 @@ const StyledMain = styled.div`
   justify-content: space-between;
   align-items: center;
   visibility: hidden;
+  will-change: transform;
 `;
 
 const StyledBrainwave = styled(Brainwave)`
